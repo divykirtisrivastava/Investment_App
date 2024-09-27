@@ -34,7 +34,7 @@ let [loading, setLoading] = useState<boolean>(false)
   }
 
   return (
-    <div className="w-1/2 mt-[120px] md:mt-[180px] mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+    <div className="w-[90%] md:w-1/2 mt-[120px] md:mt-[180px] mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
       <h2 className="font-bold text-2xl text-center text-neutral-800 dark:text-neutral-200">
         Welcome to FILIXO.COM
       </h2>
