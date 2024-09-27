@@ -158,14 +158,14 @@ export default function Signup() {
 
   return (
     <div className="w-[95%] md:w-3/4 mx-auto rounded md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black mt-[120px] mb-[40px] md:mt-[150px]">
-      <h2 className="font-bold text-2xl text-neutral-800 dark:text-neutral-200">
+      <h2 className="font-bold text-center text-3xl text-neutral-800 dark:text-neutral-200">
         Welcome to FILIXO.COM
       </h2>
-      <p className="text-neutral-600 text-xl max-w-sm mt-2 dark:text-neutral-300">
+      <p className="text-neutral-600 text-center text-2xl mt-2 dark:text-neutral-300">
         Sign up to FILIXO.COM
       </p>
 
-      <form className="my-8" onSubmit={handleSubmit}>
+      <form className="my-10" onSubmit={handleSubmit}>
         {/* First and Last Name */}
         <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
           <LabelInputContainer>

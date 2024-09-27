@@ -42,7 +42,7 @@ export function AboutCard() {
          <AiTwotoneUnlock size={100} color="#A16207"/>
           <h1 className="text-yellow-700 text-2xl font-bold">Safe & Secure</h1>
           <p className="font-normal text-base text-slate-500 text-center mb-4 relative z-50">
-          we prioritize the safety and security of our users' investments and personal information. In the world of online trading.
+          we prioritize the safety and security of our users investments and personal information. In the world of online trading.
           </p>
 
           {/* Meaty part - Meteor effect */}

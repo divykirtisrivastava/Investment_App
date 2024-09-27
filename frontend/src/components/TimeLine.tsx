@@ -23,7 +23,7 @@ export function TimeLine() {
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-8">
-          Explore our company's rich history and pick a memorable event or milestone from our timeline. It could be the year we were founded, our first big client, or the launch of your favorite product.
+          Explore our company rich history and pick a memorable event or milestone from our timeline. It could be the year we were founded, our first big client, or the launch of your favorite product.
           </p>
           <div className="grid grid-cols-2 gap-4">
             <Image
@@ -106,7 +106,7 @@ export function TimeLine() {
       content: (
         <div>
           <p className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal mb-4">
-          Over the years, Filixo has grown, innovated, and transformed, and it’s all thanks to our incredible community of employees, partners, and customers.
+          Over the years, Filixo has grown, innovated, and transformed, and it all thanks to our incredible community of employees, partners, and customers.
           </p>
           {/* <div className="mb-8">
             <div className="flex gap-2 items-center text-neutral-700 dark:text-neutral-300 text-xs md:text-sm">

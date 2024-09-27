@@ -301,11 +301,11 @@ const Admin_Edit_Profile: React.FC = () => {
               />
             </div>
             <div>
-              <label className="block font-medium">Mother's Name</label>
+              <label className="block font-medium">Father Name</label>
               <input
                 type="text"
                 name="mothersName"
-                placeholder="Enter mother's name"
+                placeholder="Enter Father name"
                 value={personalDetails.motherName}
                 onChange={handlePersonalDetailChange}
                 className="w-full p-2 border rounded-lg text-black"
@@ -533,7 +533,7 @@ const Admin_Edit_Profile: React.FC = () => {
 
           {/* Update and Edit Buttons */}
           <div className="flex justify-center mt-9">
-            <button type="submit" className="bg-green-500 text-white py-2 px-4 rounded-lg" disabled={loading}>{loading ? 'proccesing' : ` Update`}</button>
+            <button type="submit" className="bg-green-500 text-white py-2 px-4 rounded-lg" disabled={loading}>{loading ? 'proccesing' : ' Update'}</button>
           </div>
       </div>
         </form>

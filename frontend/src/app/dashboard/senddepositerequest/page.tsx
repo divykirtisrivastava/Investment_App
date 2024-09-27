@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import qr from '../../../../public/paymentW.jpeg'
 import Image from 'next/image';
-const senddepositerequest = () => {
+const SendDepositeRequest = () => {
     let { auth } = useAuth()
     const [loading, setLoading] = useState<boolean>(false);
     const [otploading, setotpLoading] = useState<boolean>(false);
@@ -301,4 +301,4 @@ function handleinpchange(e:any){
     );
 };
 
-export default senddepositerequest;
+export default SendDepositeRequest;

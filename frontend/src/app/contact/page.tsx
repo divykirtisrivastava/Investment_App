@@ -7,12 +7,12 @@ import { BiMailSend, BiPhone } from 'react-icons/bi';
 import { BsMailbox } from 'react-icons/bs';
 import { MdCallToAction } from 'react-icons/md';
 
-export default function page() {
-    const [email, setEmail] = useState('');
-    const [name, setName] = useState('');
-    const [phone, setPhone] = useState('');
-    const [message, setMessage] = useState('');
-    const [error, setError] = useState('');
+export default function Contact() {
+    const [email, setEmail] = useState<string | any>('');
+    const [name, setName] = useState<string | any>('');
+    const [phone, setPhone] = useState<string | any>('');
+    const [message, setMessage] = useState<string | any>('');
+    const [error, setError] = useState<string | any>('');
   let [loading, setLoading] = useState<boolean>(false)
   return (
     <div className='mt-[120px] md:mt-[190px] flex flex-col md:flex-row items-center justify-center md:items-start gap-4'>
