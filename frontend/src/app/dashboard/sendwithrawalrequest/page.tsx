@@ -50,7 +50,7 @@ const SendWithrawalRequest = () => {
 
             try {
                 setotpLoading(true)
-                await axios.post('http://localhost:4000/trade/verifyotp', { email, otp });
+                await axios.post('https://filixo.com/trade/verifyotp', { email, otp });
                 alert('OTP has been sent to your email');
             } catch (err) {
                 console.error('Error sending OTP:', err);
@@ -73,7 +73,7 @@ const SendWithrawalRequest = () => {
         if(auth.userData.status == 'verified'){
             if (parseInt(depositeData.withrawalAmount) <= (auth.userData.totalIncome - auth.userData.deposite )) {
                 if (enteredOTP === generatedOTP) {
-                    await axios.post(`http://localhost:4000/trade/withrawalRequest`, depositeData)
+                    await axios.post(`https://filixo.com/trade/withrawalRequest`, depositeData)
                     alert("Your Request is Submitted")
                     router.push('/dashboard')
                 } else {
@@ -91,7 +91,7 @@ const SendWithrawalRequest = () => {
        if(auth.userData.status == 'verified'){
         if (parseInt(depositeData.withrawalAmount) <= (auth.userData.totalIncome - auth.userData.deposite )) {
             if (enteredOTP === generatedOTP && depositeData.transactionId) {
-                await axios.post(`http://localhost:4000/trade/withrawalRequest`, depositeData)
+                await axios.post(`https://filixo.com/trade/withrawalRequest`, depositeData)
                 alert("Your Request is Submitted")
                 router.push('/dashboard') 
             } else {

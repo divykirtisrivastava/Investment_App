@@ -51,7 +51,7 @@ const SendDepositeRequest = () => {
 
             try {
                 setotpLoading(true)
-                await axios.post('http://localhost:4000/trade/verifyotp', { email, otp });
+                await axios.post('https://filixo.com/trade/verifyotp', { email, otp });
                 alert('OTP has been sent to your email');
             } catch (err) {
                 console.error('Error sending OTP:', err);
@@ -74,7 +74,7 @@ const SendDepositeRequest = () => {
         console.log(depositeData)
         if (parseInt(depositeData.depositeAmount) > 1599) {
             if (enteredOTP === generatedOTP) {
-                await axios.post(`http://localhost:4000/trade/depositeRequest`, depositeData)
+                await axios.post(`https://filixo.com/trade/depositeRequest`, depositeData)
                 alert("Your Request is Submitted")
                 router.push('/dashboard')
             } else {
@@ -88,7 +88,7 @@ const SendDepositeRequest = () => {
     async function handleUsdt() {
         // if (auth.userData.status == 'verified') {
             if (enteredOTP === generatedOTP && depositeData.transactionImage && depositeData.transactionId) {
-                await axios.post(`http://localhost:4000/trade/depositeRequest`, depositeData,{
+                await axios.post(`https://filixo.com/trade/depositeRequest`, depositeData,{
                     headers:{
                         'Content-Type':'multipart/form-data'
                     }

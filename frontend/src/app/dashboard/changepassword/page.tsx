@@ -28,7 +28,7 @@ const Admin_Change_Password = () => {
 
       try {
         setotpLoading(true)
-        await axios.post('http://localhost:4000/trade/verifyotp', { email, otp });
+        await axios.post('https://filixo.com/trade/verifyotp', { email, otp });
         alert('OTP has been sent to your email');
       } catch (err) {
         console.error('Error sending OTP:', err);
@@ -45,7 +45,7 @@ const Admin_Change_Password = () => {
     e.preventDefault();
     if(enteredOTP === generatedOTP){
       if(auth.userData && oldpass == auth.userData.password && newpass == confirmpass){
-        await axios.put(`http://localhost:4000/trade/updatepassword/${auth.userData.email}`,{
+        await axios.put(`https://filixo.com/trade/updatepassword/${auth.userData.email}`,{
           "password":newpass
         })
       alert('Password changed successfully!');

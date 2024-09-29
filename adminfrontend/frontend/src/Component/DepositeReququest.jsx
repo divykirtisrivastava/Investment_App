@@ -11,7 +11,7 @@ export default function DepositeReququest() {
     let [flag, setFlag] = useState(true)
     async function getProfile() {
         try {
-            let result = await axios.get('http://localhost:4000/trade/getdepositeRequest');
+            let result = await axios.get('https://filixo.com/trade/getdepositeRequest');
             //   console.log(result)
             if (result) {
                 setData(result.data);
@@ -27,18 +27,18 @@ export default function DepositeReququest() {
 
     // Handler functions
     const handleUpdate = async (id) => {
-        let result = await axios.get('http://localhost:4000/trade/getdepositeRequest');
+        let result = await axios.get('https://filixo.com/trade/getdepositeRequest');
         let final = result.data.filter(data => data.id == id)
         setUpdate(final[0])
         setFlag(false)
     };
   async  function submitupdate(id, method){
         if(method == 'USDT'){
-            await axios.put(`http://localhost:4000/trade/updatedepositeRequest/${id}`, {depositeAmount: update.depositeAmount, transactionDate: update.transactionDate, transactionStatus:update.transactionStatus})
+            await axios.put(`https://filixo.com/trade/updatedepositeRequest/${id}`, {depositeAmount: update.depositeAmount, transactionDate: update.transactionDate, transactionStatus:update.transactionStatus})
         window.location.reload()
         }else{
             console.log(update)
-            await axios.put(`http://localhost:4000/trade/updatedepositeRequest/${id}`, {depositeAmount:update.depositeAmount, transactionDate: update.transactionDate, transactionStatus:update.transactionStatus})
+            await axios.put(`https://filixo.com/trade/updatedepositeRequest/${id}`, {depositeAmount:update.depositeAmount, transactionDate: update.transactionDate, transactionStatus:update.transactionStatus})
         window.location.reload()
         }
     }
@@ -111,7 +111,7 @@ export default function DepositeReququest() {
                                         <td className="py-2 px-4">{index + 1}</td>
                                         <td className="py-2 px-4">{data.depositeAmount}$</td>
                                         {/* <td className="py-2 px-4">{data.dailyProfitPercentage}%</td> */}
-                                        <td className="py-2 px-4"><img src={`http://localhost:4000/${data.transactionImage}`} alt="" className='w-40 h-16' /></td>
+                                        <td className="py-2 px-4"><img src={`https://filixo.com/uploads/${data.transactionImage}`} alt="" className='w-40 h-16' /></td>
                                         <td className="py-2 px-4">{data.transactionDate}</td>
                                         <td className="py-2 px-4">{data.email}</td>
                                         <td className="py-2 px-4">{data.transactionId}</td>

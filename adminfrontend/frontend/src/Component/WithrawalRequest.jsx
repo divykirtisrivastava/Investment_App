@@ -11,7 +11,7 @@ export default function WithrawalRequest() {
     let [flag, setFlag] = useState(true)
     async function getProfile() {
         try {
-            let result = await axios.get('http://localhost:4000/trade/getwithrawalRequest');
+            let result = await axios.get('https://filixo.com/trade/getwithrawalRequest');
               console.log(result)
             if (result) {
                 setData(result.data);
@@ -27,18 +27,18 @@ export default function WithrawalRequest() {
 
     // Handler functions
     const handleUpdate = async (id) => {
-        let result = await axios.get('http://localhost:4000/trade/getwithrawalRequest');
+        let result = await axios.get('https://filixo.com/trade/getwithrawalRequest');
         let final = result.data.filter(data => data.id == id)
         setUpdate(final[0])
         setFlag(false)
     };
   async  function submitupdate(id, method){
         if(method == 'USDT'){
-            await axios.put(`http://localhost:4000/trade/updatewithrawalRequest/${id}`, {depositeAmount: update.depositeAmount, transactionDate: update.transactionDate, transactionStatus:update.transactionStatus})
+            await axios.put(`https://filixo.com/trade/updatewithrawalRequest/${id}`, {depositeAmount: update.depositeAmount, transactionDate: update.transactionDate, transactionStatus:update.transactionStatus})
         window.location.reload()
         }else{
             console.log(update)
-            await axios.put(`http://localhost:4000/trade/updatewithrawalRequest/${id}`, {depositeAmount:update.depositeAmount, transactionDate: update.transactionDate, transactionStatus:update.transactionStatus})
+            await axios.put(`https://filixo.com/trade/updatewithrawalRequest/${id}`, {depositeAmount:update.depositeAmount, transactionDate: update.transactionDate, transactionStatus:update.transactionStatus})
         window.location.reload()
         }
     }

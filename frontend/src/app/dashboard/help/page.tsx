@@ -20,7 +20,7 @@ let router = useRouter()
   async function handleSubmit(e:any) {
     e.preventDefault()
     console.log(email)
-    await axios.post('http://localhost:4000/trade/contact',{
+    await axios.post('https://filixo.com/trade/contact',{
       "email":email,
       "phone":phone,
       "name":name,

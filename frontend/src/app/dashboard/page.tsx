@@ -40,7 +40,7 @@ const Dashboard: React.FC = () => {
 
 async function getReferral(sponsor:any) {
   if(sponsor){
-    await axios.get(`http://localhost:4000/trade/updateReferral/${sponsor}/${auth.userData.email}`)
+    await axios.get(`https://filixo.com/trade/updateReferral/${sponsor}/${auth.userData.email}`)
     // console.log(auth.userData.sponsorEmail)
   }
 }
@@ -124,7 +124,7 @@ getReferral(sponsor)
                 introducing clients to Filixo.com
               </p>
               <div className='w-full h-10  bg-gray-200 rounded-full flex items-center text-black text-xl font-bold justify-between overflow-hidden border'>
-                <p className='pl-5 overflow-hidden'>{`http://localhost:3000/signup/${sponsor ?? 'N/A'}`}</p>
+                <p className='pl-5 overflow-hidden'>{`https://filixo.com/signup/${sponsor ?? 'N/A'}`}</p>
                 <button onClick={handleCopy} className='bg-black p-5 rounded-full text-white cursor-pointer'>Copy</button>
               </div>
             </div>

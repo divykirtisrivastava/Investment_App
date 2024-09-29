@@ -123,7 +123,7 @@ let {id} = useParams()
       const otp = generateOTP();
       try {
         setotpLoading(true)
-        await axios.post('http://localhost:4000/trade/verifyotp', { email, otp });
+        await axios.post('https://filixo.com/trade/verifyotp', { email, otp });
         alert('OTP has been sent to your email');
       } catch (err) {
         console.error('Error sending OTP:', err);
@@ -136,7 +136,7 @@ let {id} = useParams()
     }
   };
   async function getUserData() {
-    let result = await axios.get(`http://localhost:4000/trade/getUserById/${id}`)
+    let result = await axios.get(`https://filixo.com/trade/getUserById/${id}`)
     // console.log(result)
     setAuth(result.data)
     setPersonalDetails(result.data)
@@ -154,7 +154,7 @@ let {id} = useParams()
     setLoading(true)
     if (auth){
     //   if(auth.status == 'unverified'){
-        await axios.put(`http://localhost:4000/trade/updateUserById/${auth.id}`,personalDetails,{
+        await axios.put(`https://filixo.com/trade/updateUserById/${auth.id}`,personalDetails,{
           headers:{
             'Content-Type':'multipart/form-data'
           }
@@ -189,7 +189,7 @@ let {id} = useParams()
           {/* Profile Image */}
           <div className="flex flex-col items-center">
             <img
-              src={auth ?  `http://localhost:4000/${auth.profilePic}` : "https://via.placeholder.com/150"}
+              src={auth ?  `https://filixo.com/uploads/${auth.profilePic}` : "https://via.placeholder.com/150"}
               alt="Profile"
               className="rounded-full h-32 w-32 object-cover mb-4"
             />
@@ -360,12 +360,12 @@ let {id} = useParams()
             <div>
               <label className="block font-medium">KYC Document 1</label>
               <input type="file" onChange={handleKycDoc1Change} />
-              {auth && <img src={`http://localhost:4000/${auth.documentFront}`} alt="KYC Doc 1" className="w-72 h-72 mt-2" /> }
+              {auth && <img src={`https://filixo.com/uploads/${auth.documentFront}`} alt="KYC Doc 1" className="w-72 h-72 mt-2" /> }
             </div>
             <div>
               <label className="block font-medium">KYC Document 2</label>
             <input type="file" onChange={handleKycDoc2Change} />
-              {auth && <img src={`http://localhost:4000/${auth.documentBack}`} alt="KYC Doc 2" className="w-72 h-72 mt-2" />}
+              {auth && <img src={`https://filixo.com/uploads/${auth.documentBack}`} alt="KYC Doc 2" className="w-72 h-72 mt-2" />}
             </div>
           </div>
 
@@ -464,12 +464,12 @@ let {id} = useParams()
             <div>
               <label className="block font-medium">Nominee KYC Document Front</label>
               <input type="file" onChange={handlenomineefront} />
-              {auth && <img src={`http://localhost:4000/${auth.nomineeDocumentFront}`} alt="KYC Doc" className="w-72 h-72 mt-2" /> }
+              {auth && <img src={`https://filixo.com/uploads/${auth.nomineeDocumentFront}`} alt="KYC Doc" className="w-72 h-72 mt-2" /> }
             </div>
             <div>
               <label className="block font-medium">Nominee KYC Document Back</label>
             <input type="file" onChange={handlenomineeback} />
-              {auth && <img src={`http://localhost:4000/${auth.nomineeDocumentBack}`} alt="KYC Doc 1" className="w-72 h-72 mt-2" />}
+              {auth && <img src={`https://filixo.com/uploads/${auth.nomineeDocumentBack}`} alt="KYC Doc 1" className="w-72 h-72 mt-2" />}
             </div>
           </div>
 

@@ -13,7 +13,7 @@ const WithrawalSearchForm = () => {
     const handleSearch = async () => {
         // console.log('Searching with:', { paymentMethod, fromDate, toDate });
        if(paymentMethod && fromDate && toDate){
-        let result = await axios.get(`http://localhost:4000/trade/getwithrawalHistory/${auth.userData.email}/${paymentMethod}/${fromDate}/${toDate}`)
+        let result = await axios.get(`https://filixo.com/trade/getwithrawalHistory/${auth.userData.email}/${paymentMethod}/${fromDate}/${toDate}`)
         // console.log(result)
        setdata(result.data)
        }else{

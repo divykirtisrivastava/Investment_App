@@ -9,7 +9,7 @@ export default function UserData() {
 
   async function getProfile() {
     try {
-      let result = await axios.get('http://localhost:4000/trade/getUser');
+      let result = await axios.get('https://filixo.com/trade/getUser');
       if(result){
         setData(result.data);
       }
@@ -26,7 +26,7 @@ export default function UserData() {
   const handleDelete = async (id) => {
     let flag = confirm("Are you Sure to Delete")
     if(flag){
-     await axios.delete(`http://localhost:4000/shop/deleteProduct/${id}`);
+     await axios.delete(`https://filixo.com/shop/deleteProduct/${id}`);
      getProfile()
     }
   };

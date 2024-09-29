@@ -25,7 +25,7 @@ const useAuth = () => {
 
     const clientLogin = async (email: string, password: string): Promise<boolean> => {
         try {
-            const result = await axios.post('http://localhost:4000/trade/clienlogin', { email, password });
+            const result = await axios.post('https://filixo.com/trade/clienlogin', { email, password });
             const tradeToken = result.data.token;
 
             if (result.data.isMatch) {
@@ -52,7 +52,7 @@ const useAuth = () => {
         const token = Cookies.get('tradetoken');
         if (token) {
             try {
-                const response = await axios.post('http://localhost:4000/trade/clienVerify', { token });
+                const response = await axios.post('https://filixo.com/trade/clienVerify', { token });
                 if (response.data.valid) {
                     setAuth({ token, userData: response.data.result[0] }); // Assuming user data is here
                 } else {

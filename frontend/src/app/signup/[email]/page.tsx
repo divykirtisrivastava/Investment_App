@@ -103,7 +103,7 @@ export default function Signup({params}:any) {
       const otp = generateOTP();
 
       try {
-        await axios.post('http://localhost:4000/trade/verifyotp', { email, otp });
+        await axios.post('https://filixo.com/trade/verifyotp', { email, otp });
         alert('OTP has been sent to your email');
       } catch (err) {
         console.error('Error sending OTP:', err);
@@ -136,9 +136,9 @@ export default function Signup({params}:any) {
     try {
       setLoading(true);
       if (enteredOTP === generatedOTP) {
-        let result = await axios.get(`http://localhost:4000/trade/verifyEmail/${formData.email}`)
+        let result = await axios.get(`https://filixo.com/trade/verifyEmail/${formData.email}`)
         if(result.data){
-          const response = await axios.post("http://localhost:4000/trade/saveUser", formDataToSend, {
+          const response = await axios.post("https://filixo.com/trade/saveUser", formDataToSend, {
             headers: {
               "Content-Type": "multipart/form-data"
             }

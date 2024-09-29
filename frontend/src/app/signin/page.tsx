@@ -26,7 +26,7 @@ const [otploading, setotpLoading] = useState<boolean>(false);
    try {
     setLoading(true)
     let result = await clientLogin(email, password)
-    // let result = await axios.post('http://localhost:4000/trade/clienlogin', {email, password})
+    // let result = await axios.post('https://filixo.com/trade/clienlogin', {email, password})
    if(result){
     router.push('/dashboard');
    }else{
@@ -53,7 +53,7 @@ const [otploading, setotpLoading] = useState<boolean>(false);
 
       try {
         setotpLoading(true)
-        await axios.post('http://localhost:4000/trade/verifyotp', { email, otp });
+        await axios.post('https://filixo.com/trade/verifyotp', { email, otp });
         alert('OTP has been sent to your email');
       } catch (err) {
         console.error('Error sending OTP:', err);
@@ -69,7 +69,7 @@ const [otploading, setotpLoading] = useState<boolean>(false);
     e.preventDefault();
     if(enteredOTP === generatedOTP){
       if(email && password){
-        await axios.put(`http://localhost:4000/trade/updatepassword/${email}`,{
+        await axios.put(`https://filixo.com/trade/updatepassword/${email}`,{
           "password":password
         })
       alert('Password changed successfully!');

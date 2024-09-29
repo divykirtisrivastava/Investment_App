@@ -174,7 +174,7 @@ const Admin_Edit_Profile: React.FC = () => {
 
       try {
         setotpLoading(true)
-        await axios.post('http://localhost:4000/trade/verifyotp', { email, otp });
+        await axios.post('https://filixo.com/trade/verifyotp', { email, otp });
         alert('OTP has been sent to your email');
       } catch (err) {
         console.error('Error sending OTP:', err);
@@ -194,7 +194,7 @@ const Admin_Edit_Profile: React.FC = () => {
     setLoading(true)
     if (enteredOTP === generatedOTP){
       if(auth.userData && auth.userData.status == 'verified' && auth.userData.deposite > 20){
-        await axios.put(`http://localhost:4000/trade/updateUser/${auth.userData.email}`,personalDetails,{
+        await axios.put(`https://filixo.com/trade/updateUser/${auth.userData.email}`,personalDetails,{
           headers:{
             'Content-Type':'multipart/form-data'
           }
@@ -229,7 +229,7 @@ const Admin_Edit_Profile: React.FC = () => {
           {/* Profile Image */}
           <div className="flex flex-col items-center">
             <img
-              src={auth.userData ?  `http://localhost:4000/uploads/${auth.userData.profilePic}` : "https://via.placeholder.com/150"}
+              src={auth.userData ?  `https://filixo.com/uploads/${auth.userData.profilePic}` : "https://via.placeholder.com/150"}
               alt="Profile"
               className="rounded-full h-32 w-32 object-cover mb-4"
             />
@@ -318,12 +318,12 @@ const Admin_Edit_Profile: React.FC = () => {
             <div>
               <label className="block font-medium">KYC Document 1</label>
               <input type="file" onChange={handleKycDoc1Change} />
-              {auth.userData && <img src={`http://localhost:4000/${auth.userData.documentFront}`} alt="KYC Doc 1" className="w-36 mt-2 h-36 object-fit" /> }
+              {auth.userData && <img src={`https://filixo.com/uploads/${auth.userData.documentFront}`} alt="KYC Doc 1" className="w-36 mt-2 h-36 object-fit" /> }
             </div>
             <div>
               <label className="block font-medium">KYC Document 2</label>
             <input type="file" onChange={handleKycDoc2Change} />
-              {auth.userData && <img src={`http://localhost:4000/${auth.userData.documentBack}`} alt="KYC Doc 2" className="w-36 mt-2 h-36 object-fit" />}
+              {auth.userData && <img src={`https://filixo.com/uploads/${auth.userData.documentBack}`} alt="KYC Doc 2" className="w-36 mt-2 h-36 object-fit" />}
             </div>
           </div>
 
@@ -439,12 +439,12 @@ const Admin_Edit_Profile: React.FC = () => {
             <div>
               <label className="block font-medium">Nominee KYC Document Front</label>
               <input type="file" onChange={handlenomineefront} />
-              {auth.userData && <img src={`http://localhost:4000/${auth.userData.nomineeDocumentFront}`} alt="KYC Doc" className="w-36 mt-2 h-36 object-fit" /> }
+              {auth.userData && <img src={`https://filixo.com/uploads/${auth.userData.nomineeDocumentFront}`} alt="KYC Doc" className="w-36 mt-2 h-36 object-fit" /> }
             </div>
             <div>
               <label className="block font-medium">Nominee KYC Document Back</label>
             <input type="file" onChange={handlenomineeback} />
-              {auth.userData && <img src={`http://localhost:4000/${auth.userData.nomineeDocumentBack}`} alt="KYC Doc 1" className="w-36 mt-2 h-36 object-fit" />}
+              {auth.userData && <img src={`https://filixo.com/uploads/${auth.userData.nomineeDocumentBack}`} alt="KYC Doc 1" className="w-36 mt-2 h-36 object-fit" />}
             </div>
           </div>
 
