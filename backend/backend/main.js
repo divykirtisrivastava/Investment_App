@@ -1,6 +1,7 @@
 const express= require('express')
 const db= require('./dataBaseConfig.js')
 const cors=require('cors')
+const path=require('path')
 const contactRoute=require('./routes/contactRoute.js')
 const enquiryRoute=require('./routes/enquiryRoute.js')
 const profileRoute=require('./routes/profileRoute.js')
