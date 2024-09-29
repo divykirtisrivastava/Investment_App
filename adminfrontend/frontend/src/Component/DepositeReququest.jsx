@@ -37,7 +37,7 @@ export default function DepositeReququest() {
             await axios.put(`https://filixo.com/trade/updatedepositeRequest/${id}`, {depositeAmount: update.depositeAmount, transactionDate: update.transactionDate, transactionStatus:update.transactionStatus})
         window.location.reload()
         }else{
-            console.log(update)
+            // console.log(update)
             await axios.put(`https://filixo.com/trade/updatedepositeRequest/${id}`, {depositeAmount:update.depositeAmount, transactionDate: update.transactionDate, transactionStatus:update.transactionStatus})
         window.location.reload()
         }

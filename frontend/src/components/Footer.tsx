@@ -53,7 +53,7 @@ export default function Footer() {
             </div>
         </div>
     </div>
-    <div className="mt-4 pt-6 text-gray-600 border-t border-gray-800 text-center"> © 2024 FILIXO.COM. All rights reserved.</div>
+    <div className="mt-4 pt-6 text-gray-600 border-t border-gray-800 text-center"> © 2024 FILIXO.COM | All rights reserved.</div>
 </footer>
     </>
   );

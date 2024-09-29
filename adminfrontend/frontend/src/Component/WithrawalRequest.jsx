@@ -12,7 +12,7 @@ export default function WithrawalRequest() {
     async function getProfile() {
         try {
             let result = await axios.get('https://filixo.com/trade/getwithrawalRequest');
-              console.log(result)
+            //   console.log(result)
             if (result) {
                 setData(result.data);
             }
@@ -37,7 +37,7 @@ export default function WithrawalRequest() {
             await axios.put(`https://filixo.com/trade/updatewithrawalRequest/${id}`, {depositeAmount: update.depositeAmount, transactionDate: update.transactionDate, transactionStatus:update.transactionStatus})
         window.location.reload()
         }else{
-            console.log(update)
+            // console.log(update)
             await axios.put(`https://filixo.com/trade/updatewithrawalRequest/${id}`, {depositeAmount:update.depositeAmount, transactionDate: update.transactionDate, transactionStatus:update.transactionStatus})
         window.location.reload()
         }

@@ -23,14 +23,14 @@ export default function UserData() {
   }, []); // Empty dependency array to fetch data only once
 
   // Handler functions
-  const handleDelete = async (id) => {
-    let flag = confirm("Are you Sure to Delete")
-    if(flag){
-     await axios.delete(`https://filixo.com/shop/deleteProduct/${id}`);
-     getProfile()
-    }
-  };
-console.log(data)
+  // const handleDelete = async (id) => {
+  //   let flag = confirm("Are you Sure to Delete")
+  //   if(flag){
+  //    await axios.delete(`https://filixo.com/shop/deleteProduct/${id}`);
+  //    getProfile()
+  //   }
+  // };
+// console.log(data)
   return (
     <>
     <AdminNav/>
@@ -75,12 +75,12 @@ console.log(data)
                       >
                         Edit
                 </Link>
-                <button
+                {/* <button
                         onClick={() => handleDelete(product.id)}
                         className="inline-block bg-red-500 text-white text-xs font-bold px-4 py-2 rounded-md hover:bg-red-400 transition-transform duration-300 transform hover:scale-110"
                       >
                         Delete
-                </button>
+                </button> */}
                 </div>
               </td>
             </tr>

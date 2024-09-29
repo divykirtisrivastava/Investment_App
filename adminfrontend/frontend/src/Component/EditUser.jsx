@@ -144,7 +144,7 @@ let {id} = useParams()
   useEffect(()=>{
     getUserData()
   },[])
-  console.log(personalDetails)
+  // console.log(personalDetails)
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
