@@ -20,14 +20,16 @@ import { RiHotelFill } from "react-icons/ri";
 import { FaBusinessTime } from "react-icons/fa";
 import { TbAwardFilled } from "react-icons/tb";
 import useAuth from '@/hooks/useAuth';
+import { TiMediaRecord } from 'react-icons/ti';
+import axios from 'axios';
 
 
 const Dashboard: React.FC = () => {
   let { auth } = useAuth();
-  const sponsorEmail: string | undefined = auth?.userData?.sponsorEmail;
+  const email: string | undefined = auth?.userData?.email;
 
   // Split the sponsor email if it exists, otherwise handle safely
-  const sponsor = sponsorEmail ? sponsorEmail.split('@')[0] + '@flixxo.com' : 'No sponsor email available';
+  const sponsor =  email ? email.split('@')[0] + '_partner_filixo.com' : '';
   function handleCopy(){
     navigator.clipboard.writeText(sponsor).then(() => {
         alert('Copied to clipboard!!');
@@ -35,14 +37,34 @@ const Dashboard: React.FC = () => {
         console.error('Failed to copy: ', err);
       });
 }
+
+async function getReferral(sponsor:any) {
+  if(sponsor){
+    await axios.get(`http://localhost:4000/trade/updateReferral/${sponsor}/${auth.userData.email}`)
+    // console.log(auth.userData.sponsorEmail)
+  }
+}
+
+useEffect(()=>{
+getReferral(sponsor)
+},[auth])
+// console.log(
+// (
+//     (
+//       (auth.userData?.totalIncome ?? 0) - 
+//       (auth.userData?.deposite ?? 0) - 
+//       (auth.userData?.totalWithrawal ?? 0)
+//     ) + parseInt(auth.userData?.rewardIncome ?? 0)
+//   ).toFixed(2)
+// );
   return (
     <>
-      <div className='flex flex-col justify-start items-start gap-6'>
+      <div className='flex flex-col justify-start items-start gap-6 mt-20 md:mt-5'>
         <h1 className='px-5 py-2 bg-gray-400 inline-block rounded-md text-3xl text-black font-bold uppercase'>Dashboard</h1>
 
 
         <div>
-          <p className='text-2xl font-bold'>Status: <span className='text-red-700 text-3xl'>{auth.userData?.status ?? 'N/A'}</span></p>
+          <p className='text-2xl font-bold'>Status: <span className={`${auth.userData?.status == 'verified' ? 'text-green-400' : 'text-red-800'} text-3xl uppercase`}>{auth.userData?.status ?? 'N/A'}</span></p>
         </div>
 
 
@@ -81,39 +103,33 @@ const Dashboard: React.FC = () => {
 
 
 
-        <div className=" flex flex-col justify-center items-center p-4">
+        <div className=" flex flex-col md:flex-row p-4 w-full gap-2">
           {/* Card Container */}
-          <div className="grid gap-6 md:grid-cols-2 w-full">
+          {/* <div className="grid gap-6 md:grid-cols-2 w-full"> */}
 
             {/* First Card */}
-            <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex">
-              <div className='w-full text:xl md:text-2xl font-semibold text-gray-400'>
+            <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 w-full md:w-1/2">
+              <div className='w-full text-xl md:text-2xl font-semibold text-gray-400'>
                 <p>User Name: <span className='text-xl uppercase text-white'>{auth.userData?.first_name ?? 'N/A'}</span></p>
                 <p>User Email: <span className='text-xl uppercase text-white'>{auth.userData?.email ?? 'N/A'}</span></p>
-                <p>Sponsor Name: <span className='text-xl uppercase text-white'>{auth.userData?.sponsorName ?? 'N/A'}</span></p>
-                <p>Sponsor Email: <span className='text-xl uppercase text-white'>{auth.userData?.sponsorEmail ?? 'N/A'}</span></p>
+                
+                <p>Referral Email: <span className='text-sm text-white overflow-hidden'>{auth.userData?.sponsorEmail ?? 'N/A'}</span></p>
               </div>
-              {/* <div className='w-1/2 text:xl md:text-2xl font-semibold'>
-                <p></p>
-                <p></p>
-                <p></p>
-                <p></p>
-              </div> */}
             </div>
 
             {/* Second Card with Search Field */}
-            <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105">
+            <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 w-full md:w-1/2">
               <h2 className="text-2xl font-bold mb-4">Referral Program  :  Earn a stable income by</h2>
               <p className="text-xl font-bold mb-4">
-                introducing clients to Enter Company Name
+                introducing clients to Filixo.com
               </p>
               <div className='w-full h-10  bg-gray-200 rounded-full flex items-center text-black text-xl font-bold justify-between overflow-hidden border'>
-                <p className='pl-5'>{sponsor ?? 'N/A'}</p>
-                <button onClick={handleCopy} className='background-color p-5 rounded-full text-white cursor-pointer'>Copy</button>
+                <p className='pl-5 overflow-hidden'>{`http://localhost:3000/signup/${sponsor ?? 'N/A'}`}</p>
+                <button onClick={handleCopy} className='bg-black p-5 rounded-full text-white cursor-pointer'>Copy</button>
               </div>
             </div>
 
-          </div>
+          {/* </div> */}
         </div>
 
 
@@ -125,8 +141,8 @@ const Dashboard: React.FC = () => {
             {/* First Card */}
             <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl font-semibold'>
-                <p>Self Deposit </p>
-                <p>$ {auth.userData?.deposite ?? '0'}</p>
+                <p>Deposit </p>
+                <p>$ {(auth.userData?.deposite - auth.userData?.totalWithrawal) ?? '0'}</p>
               </div>
               <div className=' text:xl font-semibold'>
                 <FcMoneyTransfer className='inline text-2xl md:text-4xl' />
@@ -136,8 +152,17 @@ const Dashboard: React.FC = () => {
             {/* Second Card with Search Field */}
             <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
+                <p>Daily Profit Rate </p>
+                <p>{auth.userData?.tradeTotalIncome ?? 0} %</p>
+              </div>
+              <div className=' text:xl font-semibold'>
+                <FaBusinessTime className='inline text-2xl md:text-4xl' />
+              </div>
+            </div>
+            <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
+              <div className='text:xl  font-semibold'>
                 <p>Trade Profit Income </p>
-                <p>$ {auth.userData?.tradeTotalIncome ?? '0'}</p>
+                <p>$ {(auth.userData?.totalIncome - auth.userData?.deposite - auth.userData?.totalWithrawal ?? 0).toFixed(2)}</p>
               </div>
               <div className=' text:xl font-semibold'>
                 <GiTakeMyMoney className='inline text-2xl md:text-4xl' />
@@ -149,7 +174,7 @@ const Dashboard: React.FC = () => {
             <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
                 <p>Referral Income</p>
-                <p>$ {auth.userData?.referralIncome ?? 'N/A'}</p>
+                <p>$ {auth.userData?.referralIncome ?? '0'}</p>
               </div>
               <div className=' text:xl font-semibold'>
                 <GiReceiveMoney className='inline text-2xl md:text-4xl' />
@@ -158,7 +183,7 @@ const Dashboard: React.FC = () => {
 
 
             {/* Fourth Card with Search Field */}
-            <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
+            {/* <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
                 <p>Royalty Income</p>
                 <p>$ {auth.userData?.royaltyIncome ?? 'N/A'}</p>
@@ -166,7 +191,7 @@ const Dashboard: React.FC = () => {
               <div className=' text:xl font-semibold'>
                 <RiMoneyDollarCircleFill className='inline text-2xl md:text-4xl' />
               </div>
-            </div>
+            </div> */}
 
             {/* 
             <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
@@ -183,7 +208,7 @@ const Dashboard: React.FC = () => {
             <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
                 <p>Reward Income</p>
-                <p>$ {auth.userData?.rewardIncome ?? 'N/A'}</p>
+                <p>$ {auth.userData?.rewardIncome ?? '0'}</p>
               </div>
               <div className=' text:xl font-semibold'>
                 <FaAward className='inline text-2xl md:text-4xl' />
@@ -193,8 +218,8 @@ const Dashboard: React.FC = () => {
             {/* Seven Card with Search Field */}
             <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
-                <p>Total Income </p>
-                <p>$ {auth.userData?.totalIncome ?? 'N/A'}</p>
+                <p>Total Balance </p>
+                <p>$ {auth.userData?.totalIncome - auth.userData?.totalWithrawal ?? 'N/A'}</p>
               </div>
               <div className=' text:xl font-semibold'>
                 <GiMoneyStack className='inline text-2xl md:text-4xl' />
@@ -202,7 +227,7 @@ const Dashboard: React.FC = () => {
             </div>
 
             {/* Eight Card with Search Field */}
-            <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
+            {/* <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
                 <p>Total P2P Transfer </p>
                 <p>$ {auth.userData?.p2pTransfer ?? 'N/A'}</p>
@@ -210,10 +235,10 @@ const Dashboard: React.FC = () => {
               <div className=' text:xl font-semibold'>
                 <TbMoneybag className='inline text-2xl md:text-4xl' />
               </div>
-            </div>
+            </div> */}
 
             {/* Nine Card with Search Field */}
-            <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
+            {/* <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
                 <p>Total P2P Received </p>
                 <p>$ {auth.userData?.p2pRecived ?? 'N/A'}</p>
@@ -221,10 +246,10 @@ const Dashboard: React.FC = () => {
               <div className=' text:xl font-semibold'>
                 <FaMoneyCheckDollar className='inline text-2xl md:text-4xl' />
               </div>
-            </div>
+            </div> */}
 
             {/* ten Card with Search Field */}
-            <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
+            {/* <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
                 <p>Total Internal Transfer </p>
                 <p>$ {auth.userData?.totalInternalTransfer ?? 'N/A'}</p>
@@ -232,13 +257,13 @@ const Dashboard: React.FC = () => {
               <div className=' text:xl font-semibold'>
                 < FaMoneyBillTransfer className='inline text-2xl md:text-4xl' />
               </div>
-            </div>
+            </div> */}
 
             {/* Eleven Card with Search Field */}
             <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
                 <p>Total Withdrawal</p>
-                <p>$ {auth.userData?.totalWithrawal ?? 'N/A'}</p>
+                <p>$ {auth.userData?.totalWithrawal ?? '0'}</p>
               </div>
               <div className=' text:xl font-semibold'>
                 <FaMoneyBillWave className='inline text-2xl md:text-4xl' />
@@ -249,7 +274,13 @@ const Dashboard: React.FC = () => {
             <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
                 <p>Withdrawable Balance </p>
-                <p>$ {auth.userData?.withrawableBalance ?? 'N/A'}</p>
+                <p>$ {(
+    (
+      (auth.userData?.totalIncome ?? 0) - 
+      (auth.userData?.deposite ?? 0) - 
+      (auth.userData?.totalWithrawal ?? 0)
+    ) + parseInt(auth.userData?.rewardIncome ?? 0) + parseInt(auth.userData?.referralIncome ?? 0)
+  ).toFixed(2)}</p>
               </div>
               <div className=' text:xl font-semibold'>
                 <GiCash className='inline text-2xl md:text-4xl' />
@@ -270,30 +301,30 @@ const Dashboard: React.FC = () => {
             {/* fourteen Card with Search Field */}
             <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
-                <p>Organization 1</p>
-                <p>$ {auth.userData?.onganizationOne ?? 'N/A'}</p>
+                <p>Referral Goal</p>
+                <p>$ {auth.userData?.onganizationOne ?? '0'}</p>
               </div>
               <div className=' text:xl font-semibold'>
                 <CgOrganisation className='inline text-2xl md:text-4xl' />
               </div>
             </div>
 
-            {/* Fifteen Card with Search Field */}
+            {/* Fifteen Card with Search Field
             <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
-                <p>Organization 2 </p>
-                <p>$ {auth.userData?.onganizationTwo ?? 'N/A'}</p>
+                <p>Goal Achived </p>
+                <p>$ {auth.userData?.onganizationTwo ?? '0'}</p>
               </div>
               <div className=' text:xl font-semibold'>
                 <RiHotelFill className='inline text-2xl md:text-4xl' />
               </div>
-            </div>
+            </div> */}
 
             {/* sixteen Card with Search Field */}
             <div className="background-color border p-6 rounded-lg shadow-lg hover:shadow-xl transform transition duration-300 hover:scale-105 flex gap-5 items-center justify-between">
               <div className='text:xl  font-semibold'>
-                <p>Total Direct Business</p>
-                <p>$ {auth.userData?.totalDirectBusiness ?? 'N/A'}</p>
+                <p>Total Business</p>
+                <p>$ {auth.userData?.totalDirectBusiness ?? '0'}</p>
               </div>
               <div className=' text:xl font-semibold'>
                 <FaBusinessTime className='inline text-2xl md:text-4xl' />

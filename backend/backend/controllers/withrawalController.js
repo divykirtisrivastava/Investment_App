@@ -4,23 +4,21 @@ let jwt = require('jsonwebtoken')
 const cron = require('node-cron');
 const nodemailer = require('nodemailer');
 
-exports.depositeRequest = (req, res) => {
-  const { email, depositeMethod, currency, depositeAmount, selectNetwork, transactionId, transactionDate } = req.body;
-  const transactionImage = req.file ? req.file.filename : null;
+exports.withrawalRequest = (req, res) => {
+  const { email, withrawalMethod, currency, withrawalAmount, selectNetwork, transactionId, transactionDate } = req.body;
 
-  const sql = `INSERT INTO deposite_table (email, depositeMethod, currency, depositeAmount, selectNetwork, transactionImage, transactionId, transactionDate)
-               VALUES (?, ?, ?, ?, ?, ?, ?,  ?)`;
+  const sql = `INSERT INTO withrawal_table (email, withrawalMethod, currency, withrawalAmount, selectNetwork, transactionId, transactionDate) VALUES (?, ?, ?, ?, ?, ?, ?)`;
 
-  connection.query(sql, [email, depositeMethod, currency, depositeAmount, selectNetwork, transactionImage, transactionId, transactionDate], (err, result) => {
+  connection.query(sql, [email, withrawalMethod, currency, withrawalAmount, selectNetwork, transactionId, transactionDate], (err, result) => {
     if (err) {
       res.status(500).send({ error: err.message });
     } else {
-      res.status(201).send({ message: 'Deposit created', depositId: result.insertId });
+      res.status(201).send({ message: 'withrawal_table created', depositId: result.insertId });
     }
   });
 }
-exports.getdepositeRequest = (req, res) => {
-  const sql = 'SELECT * FROM deposite_table';
+exports.getwithrawalRequest = (req, res) => {
+  const sql = 'SELECT * FROM withrawal_table';
 
   connection.query(sql, (err, results) => {
     if (err) {
@@ -30,10 +28,10 @@ exports.getdepositeRequest = (req, res) => {
     }
   });
 }
-exports.updatedepositeRequest = (req, res) => {
+exports.updatewithrawalRequest = (req, res) => {
   const id = req.params.id;
   let updatedData = req.body;
-  const query = 'UPDATE deposite_table SET ? WHERE id = ?';
+  const query = 'UPDATE withrawal_table SET ? WHERE id = ?';
 
   try {
     // First query: Update the deposit request
@@ -42,7 +40,7 @@ exports.updatedepositeRequest = (req, res) => {
         throw err;
       } else {
         // Second query: Select the deposit request by ID to check transaction status
-        connection.query('SELECT * FROM deposite_table WHERE id = ?', [id], (err, result) => {
+        connection.query('SELECT * FROM withrawal_table WHERE id = ?', [id], (err, result) => {
           if (err) {
             throw err;
           } else {
@@ -50,8 +48,8 @@ exports.updatedepositeRequest = (req, res) => {
             if (result[0].transactionStatus === 'confirm') {
               try {
                 connection.query(
-                  'UPDATE profile_table SET deposite = (IFNULL(deposite, 0) + ?), totalIncome = (IFNULL(totalIncome, 0) + ?)  WHERE email = ?',
-                  [result[0].depositeAmount,result[0].depositeAmount, result[0].email],
+                  'UPDATE profile_table SET totalWithrawal = (IFNULL(totalWithrawal, 0) + ?)  WHERE email = ?',
+                  [result[0].withrawalAmount, result[0].email],
                   (err, updateResult) => {
                     if (err) {
                       throw err;
@@ -67,7 +65,7 @@ exports.updatedepositeRequest = (req, res) => {
               }
             } else {
               // If no profile update is needed, just send the response for the deposit update
-              return res.send("Deposit updated, no profile change needed");
+              return res.send("withrawal_table updated, no profile change needed");
             }
           }
         });
@@ -81,7 +79,7 @@ exports.updatedepositeRequest = (req, res) => {
 
 
 
-exports.searchDeposite =  (req, res) => {
+exports.searchWithrawal =  (req, res) => {
   let email  = req.params.email
   let paymentMethod  = req.params.paymentMethod
   let fromDate  = req.params.fromDate
@@ -89,8 +87,8 @@ exports.searchDeposite =  (req, res) => {
 
   const query = `
     SELECT * 
-    FROM deposite_table 
-    WHERE depositeMethod = IFNULL(?, depositeMethod) 
+    FROM withrawal_table 
+    WHERE withrawalMethod = IFNULL(?, withrawalMethod) 
     AND transactionDate >= IFNULL(?, transactionDate) 
     AND transactionDate <= IFNULL(?, transactionDate)
     AND email = ?

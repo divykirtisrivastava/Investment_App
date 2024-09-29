@@ -1,8 +1,6 @@
 const express= require('express')
 const db= require('./dataBaseConfig.js')
 const cors=require('cors')
-const dotenv= require('dotenv')
-dotenv.config()
 const contactRoute=require('./routes/contactRoute.js')
 const enquiryRoute=require('./routes/enquiryRoute.js')
 const profileRoute=require('./routes/profileRoute.js')
@@ -10,11 +8,12 @@ const signRoute=require('./routes/signRoute.js')
 const adminRoute=require('./routes/adminRoute.js')
 const statusRoute=require('./routes/statusRoute.js')
 const depositeRoute=require('./routes/depositeRoute.js')
+const withrawalRoute=require('./routes/withrawalRoute.js')
 
 let app = express()
 app.use(express.json())
 app.use(cors())
-app.use(express.static('uploads'))
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 db.connect((err)=>{
 if(err) throw err
@@ -102,6 +101,42 @@ db.query(createDepositeTableQuery, (err, result)=>{
         console.log("deposite_table created successfull")
     }
 })
+let createWithrawalTableQuery =`
+CREATE TABLE IF NOT EXISTS withrawal_table(
+    id INT NOT NULL AUTO_INCREMENT,
+    email VARCHAR(255) NULL,
+    withrawalMethod VARCHAR(255) NULL,
+    currency VARCHAR(255) NULL,
+    withrawalAmount VARCHAR(255) NULL,
+    selectNetwork VARCHAR(255) NULL,
+    transactionId VARCHAR(255) NULL,
+    transactionDate VARCHAR(255) NULL,
+    transactionStatus VARCHAR(255) default 'pending',
+    PRIMARY KEY (id));
+`
+
+db.query(createWithrawalTableQuery, (err, result)=>{
+    if(err) throw err
+    else{
+        console.log("deposite_table created successfull")
+    }
+})
+let contactTableQuery =`
+CREATE TABLE IF NOT EXISTS conact(
+    id INT NOT NULL AUTO_INCREMENT,
+    email VARCHAR(255) NULL,
+    name VARCHAR(255) NULL,
+    phone VARCHAR(255) NULL,
+    message TEXT,
+    PRIMARY KEY (id));
+`
+
+db.query(contactTableQuery, (err, result)=>{
+    if(err) throw err
+    else{
+        console.log("conatct created successfull")
+    }
+})
 
 
 // let signTableQuery=`
@@ -122,19 +157,19 @@ db.query(createDepositeTableQuery, (err, result)=>{
 //     }
 // })
 
-// let adminTableQuery=`
-// CREATE TABLE IF NOT EXISTS admin_table(
-//   id INT NOT NULL AUTO_INCREMENT,
-//   email VARCHAR(255) NULL,
-//   password VARCHAR(255) NULL, 
-//   PRIMARY KEY (id));
-// `
-// db.query(adminTableQuery, (err, result)=>{
-//     if(err) throw err
-//     else{
-//         console.log("admin table created successfull")
-//     }
-// })
+let adminTableQuery=`
+CREATE TABLE IF NOT EXISTS admin_table(
+  id INT NOT NULL AUTO_INCREMENT,
+  email VARCHAR(255) NULL,
+  password VARCHAR(255) NULL, 
+  PRIMARY KEY (id));
+`
+db.query(adminTableQuery, (err, result)=>{
+    if(err) throw err
+    else{
+        console.log("admin table created successfull")
+    }
+})
 
 // let statusTableQuery=`
 // CREATE TABLE IF NOT EXISTS status_table(
@@ -168,11 +203,12 @@ app.use('/api',contactRoute)
 app.use('/api',enquiryRoute)
 app.use('/trade',profileRoute)
 app.use('/trade',depositeRoute)
+app.use('/trade',withrawalRoute)
 app.use('/api',signRoute)
-app.use('/api',adminRoute)
+app.use('/trade',adminRoute)
 app.use('/api',statusRoute)
-app.listen(process.env.PORT,()=>{
-    console.log(`server is running on ${process.env.PORT}`)
+app.listen(4000,()=>{
+    console.log(`server is running on 4000`)
 })
 
 

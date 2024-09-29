@@ -38,7 +38,7 @@ function handlelogout(){
                     activeLink === 'home' ? 'p-2 w-full text-white bg-red-700' : 'bg-gray-900' // Apply active class
                   }`}
                 >
-                  Home Dashboard
+                  Messages
                 </Link>
               </div>
               <div>

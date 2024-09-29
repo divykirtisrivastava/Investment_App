@@ -2,6 +2,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 
 
@@ -36,7 +37,7 @@ export const Card = React.memo(
             <h1 className="text-blue-200 font-[600]">T.P.R. Monthly :</h1>
             <h1 className="text-blue-200 font-[600]">Direct Referral :</h1>
             <h1 className="text-blue-200 font-[600]">Refferal Goal :</h1>
-            <h1 className="text-blue-200 font-[600]">Royalty Income :</h1>
+            <h1 className="text-blue-200 font-[600]">Refferal Income :</h1>
             <h1 className="text-blue-200 font-[600]">One Time Reward :</h1>
           </div>
           <div className="flex flex-col gap-5 text-start">
@@ -59,9 +60,9 @@ export const Card = React.memo(
           hovered === index ? "opacity-100" : "opacity-0"
         )}
       >
-        <div className="text-xl md:text-2xl font-medium bg-gradient-to-r from-green-500 to-blue-500 py-3 px-5 rounded cursor-pointer">
+        <Link href='/signup' className="text-xl md:text-2xl font-medium bg-gradient-to-r from-green-500 to-blue-500 py-3 px-5 rounded cursor-pointer">
           Start Now
-        </div>
+        </Link>
       </div>
     </div>
   )

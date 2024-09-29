@@ -135,7 +135,7 @@ export default function Home() {
         }}
         className="mt-1 bg-gradient-to-br from-slate-300 to-slate-500 py-1 px-2 bg-clip-text text-center text-4xl font-medium tracking-tight text-transparent md:text-6xl"
       >
-       Filixo Packed With Thoushand of <br /> Feacture
+       Why Choose FILIXO ?
       </motion.h1>
     </LampContainer>
  <div className="relative top-[-250px]">

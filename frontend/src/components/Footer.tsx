@@ -8,9 +8,9 @@ export default function Footer() {
   return (
     <>
     <footer className="bg-gray-900 text-white pt-12 pb-8 px-4 h-fit w-full bottom-0">
-    <div className="mx-auto px-4 container overflow-hidden flex flex-col lg:flex-row justify-between">
+    <div className="mx-auto px-4 container overflow-hidden flex flex-col lg:flex-row justify-between items-start">
         <Link href="/" className="relative w-96 h-32">
-            <Image src={logo} className="w-full lg:ml-0 absolute top-[-100px] left-[-20px]" alt="logo"/>
+            <Image src={logo} className="w-72 lg:ml-0 " alt="logo"/>
         </Link>
         <div className="w-2/3 block sm:flex text-sm mt-6 lg:mt-0">
             <ul className="text-gray-700 list-none p-0 font-thin flex flex-col text-left w-full">
@@ -24,10 +24,10 @@ export default function Footer() {
                 <li className="inline-block py-2 px-3 text-white uppercase font-medium tracking-wide">Company</li>
                 <li><Link href="/terms_and_conditions" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Privacy</Link>
                 </li>
-                <li><Link href="/terms_and_conditions" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Terms of Service</Link></li>
+                <li><Link href="/terms_and_conditions" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Terms and Conditions</Link></li>
             </ul>
             <ul className="text-gray-700 list-none p-0 font-thin flex flex-col text-left w-full">
-                <li className="inline-block py-2 px-3 text-white uppercase font-medium tracking-wide">Packages</li>
+                <li className="inline-block py-2 px-3 text-white uppercase font-medium tracking-wide">Important Links</li>
                 <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Level 1</Link></li>
                 <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Level 2</Link></li>
                 <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Level 3</Link></li>
@@ -53,7 +53,7 @@ export default function Footer() {
             </div>
         </div>
     </div>
-    <div className="pt-4 mt-4 pt-6 text-gray-600 border-t border-gray-800 text-center"> © 2024 Techxpert.com. All rights reserved.</div>
+    <div className="mt-4 pt-6 text-gray-600 border-t border-gray-800 text-center"> © 2024 Techxpert.in. All rights reserved.</div>
 </footer>
     </>
   );

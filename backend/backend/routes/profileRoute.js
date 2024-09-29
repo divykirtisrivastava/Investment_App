@@ -10,15 +10,20 @@ router.post('/verifyotp', profileController.verifyOtp)
 
 // PUT: Update a profile by ID with an image
 router.put('/updateUser/:email',upload.fields([{ name: 'profilePic', maxCount: 1 },{ name: 'documentFront', maxCount: 1 }, { name: 'documentBack', maxCount: 1 },{ name: 'nomineeDocumentFront', maxCount: 1 }, { name: 'nomineeDocumentBack', maxCount: 1 }]), profileController.updateProfile);
+router.put('/updateUserById/:id',upload.fields([{ name: 'profilePic', maxCount: 1 },{ name: 'documentFront', maxCount: 1 }, { name: 'documentBack', maxCount: 1 },{ name: 'nomineeDocumentFront', maxCount: 1 }, { name: 'nomineeDocumentBack', maxCount: 1 }]), profileController.updateProfileById);
 
 // Other routes
 router.put('/updatepassword/:email',profileController.updatePassword)
 router.post('/clienlogin',profileController.clientLogin)
 router.post('/clienVerify',profileController.verifyClient)
+router.post('/contact',profileController.contact)
 
-router.get('/getUser/', profileController.getAllProfiles);
+router.get('/getUser', profileController.getAllProfiles);
+router.get('/getcontact', profileController.getcontact);
 router.get('/getUserById/:id', profileController.getProfileById);
 router.delete('/deleteUser/:id', profileController.deleteProfile);
+router.get('/verifyEmail/:email', profileController.getEmailVerify);
+router.get('/updateReferral/:sponsorEmail/:email', profileController.updateReferral);
 // router.post('/runupdate', profileController.runUpdate);
 
 module.exports = router;

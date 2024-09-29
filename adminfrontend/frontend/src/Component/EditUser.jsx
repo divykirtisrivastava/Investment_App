@@ -1,114 +1,69 @@
 "use client"
 
-import useAuth from '@/hooks/useAuth';
+// import useAuth from '@/hooks/useAuth';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import AdminNav from './dashboard/AdminNav';
+import AdminSidebar from './dashboard/AdminSidebar';
+import { useParams } from 'react-router-dom';
 
 
-interface PersonalDetails {
-  first_name: string;
-  email: string;
-  number: string;
-  dob: string;
-  motherName: string;
-  documentNumber: string;
-  address: string;
-  accountHolder: string;
-  accountNumber: string;
-  ifsc: string;
-  bankName: string;
-  upiName: string;
-  upiId: string;
-  profilePic:string;
-  documentFront:any;
-  documentBack:any;
-  nomineeName:any;
-  nomineeEmail:any;
-  nomineeNumber:any;
-  nomineeRelationship:any;
-  nomineeDocumentNumber:any;
-  nomineeDocumentFront:any;
-  nomineeDocumentBack:any;
-}
 
-const Admin_Edit_Profile: React.FC = () => {
-  const { auth } = useAuth();
-
+const EditUser= () => {
+//   const { auth } = useAuth();
+let {id} = useParams()
   // State for form inputs and uploads
-  const [profileImage, setProfileImage] = useState<string | null>(null);
-  const [kycDoc1, setKycDoc1] = useState<string | any>(null);
-  const [kycDoc2, setKycDoc2] = useState<string | any>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [otploading, setotpLoading] = useState<boolean>(false);
-  const [generatedOTP, setGeneratedOTP] = useState<string>('343');
-  const [enteredOTP, setEnteredOTP] = useState<string>('');
-  const [otperror, setOtpError] = useState<string>('');
+  const [profileImage, setProfileImage] = useState(null);
+  const [kycDoc1, setKycDoc1] = useState(null);
+  const [kycDoc2, setKycDoc2] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [otploading, setotpLoading] = useState(false);
+  const [generatedOTP, setGeneratedOTP] = useState('343');
+  const [enteredOTP, setEnteredOTP] = useState('');
+  const [otperror, setOtpError] = useState('');
+  const [auth, setAuth] = useState({});
  // Function to generate a 6-digit OTP
- const generateOTP = (): string => {
+ const generateOTP = () => {
   const otp = Math.floor(100000 + Math.random() * 999999).toString();
   setGeneratedOTP(otp);
   return otp;
 };
   // Define initial state types
-  const [personalDetails, setPersonalDetails] = useState<PersonalDetails>({
-    first_name: auth.userData?.first_name || '',
-    email: auth.userData?.email || '',
-    number: auth.userData?.number || '',
-        dob: auth.userData?.dob || '',
-        motherName: auth.userData?.motherName || '',
-        documentNumber: auth.userData?.documentNumber || '',
-        address: auth.userData?.address || '',
-        accountHolder: auth.userData?.accountHolder || '',
-        accountNumber: auth.userData?.accountNumber || '',
-        ifsc: auth.userData?.ifsc || '',
-        bankName: auth.userData?.bankName || '',
-        upiName: auth.userData?.upiName || '',
-        upiId: auth.userData?.upiId || '',
-        profilePic: auth.userData?.profilePic || null,
-        documentFront: auth.userData?.documentFront || null,
-        documentBack: auth.userData?.documentBack || null,
-        nomineeName: auth.userData?.nomineeName || '',
-        nomineeEmail: auth.userData?.nomineeEmail || '',
-        nomineeNumber: auth.userData?.nomineeNumber || '',
-        nomineeRelationship: auth.userData?.nomineeRelationship || '',
-        nomineeDocumentNumber: auth.userData?.nomineeDocumentNumber || '',
-        nomineeDocumentFront: auth.userData?.nomineeDocumentFront || null,
-        nomineeDocumentBack: auth.userData?.nomineeDocumentBack || null
+  const [personalDetails, setPersonalDetails] = useState({
+    first_name:  '',
+    email: '',
+    number: '',
+        dob:  '',
+        motherName:  '',
+        documentNumber:  '',
+        address:'',
+        accountHolder:'',
+        accountNumber:'',
+        ifsc:'',
+        bankName:'',
+        upiName:'',
+        upiId:'',
+        profilePic:null,
+        documentFront:null,
+        documentBack:null,
+        nomineeName:'',
+        nomineeEmail:'',
+        nomineeNumber:'',
+        nomineeRelationship:'',
+        nomineeDocumentNumber:'',
+        nomineeDocumentFront:null,
+        nomineeDocumentBack:null,
+        deposite:'',
+        tradeTotalIncome:'',
+        status:'',
+        activeData:'',
+        password:'',
+        rewardIncome:'',
+        onganizationOne:''
   });
 
-  useEffect(() => {
-    if (auth.userData) {
-      setPersonalDetails((prev) => ({
-        ...prev,
-        first_name: auth.userData.first_name || '',
-        email: auth.userData.email || '',
-        number: auth.userData?.number || '',
-        dob: auth.userData?.dob || '',
-        motherName: auth.userData?.motherName || '',
-        documentNumber: auth.userData?.documentNumber || '',
-        address: auth.userData?.address || '',
-        accountHolder: auth.userData?.accountHolder || '',
-        accountNumber: auth.userData?.accountNumber || '',
-        ifsc: auth.userData?.ifsc || '',
-        bankName: auth.userData?.bankName || '',
-        upiName: auth.userData?.upiName || '',
-        upiId: auth.userData?.upiId || '',
-        profilePic: auth.userData?.profilePic || null,
-        documentFront: auth.userData?.documentFront || null,
-        documentBack: auth.userData?.documentBack || null,
-        nomineeName: auth.userData?.nomineeName || '',
-        nomineeEmail: auth.userData?.nomineeEmail || '',
-        nomineeNumber: auth.userData?.nomineeNumber || '',
-        nomineeRelationship: auth.userData?.nomineeRelationship || '',
-        nomineeDocumentNumber: auth.userData?.nomineeDocumentNumber || '',
-        nomineeDocumentFront: auth.userData?.nomineeDocumentFront || null,
-        nomineeDocumentBack: auth.userData?.nomineeDocumentBack || null
-      }));
-    }
-  }, [auth]);
-
   // Handlers for file upload
-  const handleProfileImageChange = (e: React.ChangeEvent<HTMLInputElement | any>) => {
+  const handleProfileImageChange = (e) => {
     if (e.target.files) {
       const file = e.target.files[0];
       setProfileImage(URL.createObjectURL(file));
@@ -119,7 +74,7 @@ const Admin_Edit_Profile: React.FC = () => {
       } 
   };
 
-  const handleKycDoc1Change = (e: React.ChangeEvent<HTMLInputElement | any>) => {
+  const handleKycDoc1Change = (e) => {
     if (e.target.files) {
       const file = e.target.files[0];
       setKycDoc1(URL.createObjectURL(file));
@@ -130,7 +85,7 @@ const Admin_Edit_Profile: React.FC = () => {
     } 
   };
 
-  const handleKycDoc2Change = (e: React.ChangeEvent<HTMLInputElement | any>) => {
+  const handleKycDoc2Change = (e) => {
     if (e.target.files) {
       const file = e.target.files[0];
       setKycDoc2(URL.createObjectURL(file));
@@ -140,13 +95,13 @@ const Admin_Edit_Profile: React.FC = () => {
       setPersonalDetails((prev) => ({ ...prev, documentBack: files[0] }));
     } 
   };
-  const handlenomineefront = (e: React.ChangeEvent<HTMLInputElement | any>) => {
+  const handlenomineefront = (e) => {
     const { name, files } = e.target;
     if (files) {
       setPersonalDetails((prev) => ({ ...prev, nomineeDocumentFront: files[0] }));
     } 
   };
-  const handlenomineeback = (e: React.ChangeEvent<HTMLInputElement | any>) => {
+  const handlenomineeback = (e) => {
 
     const { name, files } = e.target;
     if (files) {
@@ -154,12 +109,7 @@ const Admin_Edit_Profile: React.FC = () => {
     } 
   };
 
-  // Handle input changes for personal details
-  // const handlePersonalDetailChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-  //   const { name, value } = e.target;
-  //   setPersonalDetails((prev) => ({ ...prev, [name]: value }));
-  // };
-  const handlePersonalDetailChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement >) => {
+  const handlePersonalDetailChange = (e) => {
     const { name, value } = e.target;
    
       setPersonalDetails((prev) => ({ ...prev, [name]: value }));
@@ -168,10 +118,9 @@ const Admin_Edit_Profile: React.FC = () => {
 
    // Handle OTP submission
    const handleSendOTP = async () => {
-    let email = auth.userData.email;
+    let email = auth.email;
     if (email) {
       const otp = generateOTP();
-
       try {
         setotpLoading(true)
         await axios.post('http://localhost:4000/trade/verifyotp', { email, otp });
@@ -186,42 +135,53 @@ const Admin_Edit_Profile: React.FC = () => {
       alert("Please Enter Email");
     }
   };
+  async function getUserData() {
+    let result = await axios.get(`http://localhost:4000/trade/getUserById/${id}`)
+    // console.log(result)
+    setAuth(result.data)
+    setPersonalDetails(result.data)
+  }
+  useEffect(()=>{
+    getUserData()
+  },[])
+  console.log(personalDetails)
   // Handle form submission
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log(personalDetails)
     // console.log(personalDetails)
    try {
     setLoading(true)
-    if (enteredOTP === generatedOTP){
-      if(auth.userData && auth.userData.status == 'verified' && auth.userData.deposite > 20){
-        await axios.put(`http://localhost:4000/trade/updateUser/${auth.userData.email}`,personalDetails,{
+    if (auth){
+    //   if(auth.status == 'unverified'){
+        await axios.put(`http://localhost:4000/trade/updateUserById/${auth.id}`,personalDetails,{
           headers:{
             'Content-Type':'multipart/form-data'
           }
         })
         alert("Profile Updated")
         window.location.reload()
-       }else{
-        alert("You are Not Eligible For Update..")
-       }
+    //    }else{
+    //     alert("You are Not Eligible For Update..")
+    //    }
     }else{
-      setOtpError("Verify OTP")
-      alert("please verify Email by OTP")
+      alert("User Not Found")
     }
    } catch (error) {
     console.log(error)
-    // setLoading(false)
    }finally{
     setLoading(false)
    }
   };
-  // console.log(auth.userData.deposite)
 
   return (
-    <div className="p-5 mt-20 md:mt-0">
-      <h1 className='text-center text-red-600 text-xl py-3'>* For Every Update in Profile 20 $ will be Deduct from Deposite Balance.</h1>
+   <>
+   <AdminNav/>
+   <AdminSidebar/>
+    <div className="p-5">
+     
       {/* Profile Section */}
-    <form className="space-y-4" onSubmit={handleSubmit}>
+    <form className="space-y-4 mt-16" onSubmit={handleSubmit}>
 
       <div className="max-w-4xl mx-auto border background-color rounded-lg shadow-lg p-5 profile-section fade-in">
         <h2 className="text-2xl font-bold mb-5 text-center">User Profile</h2>
@@ -229,26 +189,97 @@ const Admin_Edit_Profile: React.FC = () => {
           {/* Profile Image */}
           <div className="flex flex-col items-center">
             <img
-              src={auth.userData ?  `http://localhost:4000/${auth.userData.profilePic}` : "https://via.placeholder.com/150"}
+              src={auth ?  `http://localhost:4000/${auth.profilePic}` : "https://via.placeholder.com/150"}
               alt="Profile"
               className="rounded-full h-32 w-32 object-cover mb-4"
             />
             <input type="file" onChange={handleProfileImageChange} className="mb-2" />
-            <div className="text-lg font-semibold uppercase">{auth.userData?.first_name ?? 'N/A'}</div>
-            <div>Email: {auth.userData?.email ?? 'N/A'}</div>
+            <div className="text-lg font-semibold uppercase">{auth.first_name ?? 'N/A'}</div>
+            <div>Email: {auth?.email ?? 'N/A'}</div>
           </div>
           {/* Sponsor Info */}
           <div>
-            <h3 className="text-xl font-semibold mt-4 mb-2">Referral Information</h3>
-            <p>Referral Name: {auth.userData?.sponsorName ?? 'N/A'}</p>
-            <p>Joining Date: {auth.userData?.activeData ?? 'unverified status'}</p>
+            <h3 className="text-xl font-semibold mt-4 mb-2">Sponsor Information</h3>
+            <p>Referral Name: {auth?.sponsorName ?? 'N/A'}</p>
+            <p>Joining Date: {auth?.joiningData ?? 'unverified status'}</p>
           </div>
         </div>
       </div>
 
       {/* Personal Details Section */}
       <div className="max-w-4xl mx-auto border background-color rounded-lg shadow-lg p-5 mt-5 personal-details-section slide-in-left flex flex-col gap-5">
-        <h2 className="text-2xl font-bold mb-5 text-center">Personal Details</h2>
+      <h2 className="text-2xl font-bold mb-5 text-center">Update Acount</h2>
+          {/* Full Name */}
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-5">
+            <div>
+              <label className="block font-medium">Total Deposite</label>
+              <input
+                type="text"
+                name="deposite"
+                value={personalDetails.deposite}
+                // onChange={handlePersonalDetailChange}
+                className="w-full p-2 border rounded-lg text-black uppercase"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-5">
+            <div>
+              <label className="block font-medium">Set Daily Profit Parcentage in %</label>
+              <input
+                type="text"
+                name="tradeTotalIncome"
+                value={personalDetails.tradeTotalIncome}
+                onChange={handlePersonalDetailChange}
+                className="w-full p-2 border rounded-lg text-black uppercase"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-5">
+            <div>
+              <label className="block font-medium">Change Acount Status</label>
+              <select name="status" id="" className='w-full p-2 border rounded-lg text-black uppercase' value={personalDetails.status} onChange={handlePersonalDetailChange}>
+                <option>verified</option>
+                <option>unverified</option>
+              </select>
+          </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-5">
+            <div>
+              <label className="block font-medium">Set Acount Active Date</label>
+              <input
+                type="date"
+                name="activeData"
+                value={personalDetails.activeData}
+                onChange={handlePersonalDetailChange}
+                className="w-full p-2 border rounded-lg text-black uppercase"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-5">
+            <div>
+              <label className="block font-medium">Set Referral Goal</label>
+              <input
+                type="text"
+                name="onganizationOne"
+                value={personalDetails.onganizationOne}
+                onChange={handlePersonalDetailChange}
+                className="w-full p-2 border rounded-lg text-black uppercase"
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-5">
+            <div>
+              <label className="block font-medium">Set Reward Income</label>
+              <input
+                type="text"
+                name="rewardIncome"
+                value={personalDetails.rewardIncome}
+                onChange={handlePersonalDetailChange}
+                className="w-full p-2 border rounded-lg text-black uppercase"
+              />
+            </div>
+          </div>
+        <h2 className="text-2xl font-bold my-5 text-center">Personal Details</h2>
           {/* Full Name */}
           <div className="grid grid-cols-1 md:grid-cols-1 gap-5">
             <div>
@@ -287,7 +318,18 @@ const Admin_Edit_Profile: React.FC = () => {
               />
             </div>
           </div>
-
+          <div className="grid grid-cols-1 md:grid-cols-1 gap-5">
+            <div>
+              <label className="block font-medium">Password</label>
+              <input
+                type="text"
+                name="password"
+                value={personalDetails.password}
+                onChange={handlePersonalDetailChange}
+                className="w-full p-2 border rounded-lg text-black uppercase"
+              />
+            </div>
+          </div>
           {/* DOB and Mother's Name */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div>
@@ -318,12 +360,12 @@ const Admin_Edit_Profile: React.FC = () => {
             <div>
               <label className="block font-medium">KYC Document 1</label>
               <input type="file" onChange={handleKycDoc1Change} />
-              {auth.userData && <img src={`http://localhost:4000/${auth.userData.documentFront}`} alt="KYC Doc 1" className="w-36 mt-2 h-36 object-fit" /> }
+              {auth && <img src={`http://localhost:4000/${auth.documentFront}`} alt="KYC Doc 1" className="w-72 h-72 mt-2" /> }
             </div>
             <div>
               <label className="block font-medium">KYC Document 2</label>
             <input type="file" onChange={handleKycDoc2Change} />
-              {auth.userData && <img src={`http://localhost:4000/${auth.userData.documentBack}`} alt="KYC Doc 2" className="w-36 mt-2 h-36 object-fit" />}
+              {auth && <img src={`http://localhost:4000/${auth.documentBack}`} alt="KYC Doc 2" className="w-72 h-72 mt-2" />}
             </div>
           </div>
 
@@ -353,23 +395,6 @@ const Admin_Edit_Profile: React.FC = () => {
             </div>
           </div>
 
-          {/* OTP Section */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            <div>
-              <label className="block font-medium">Enter OTP</label>
-              <input
-                type="text"
-                name='enteredOTP'
-                value={enteredOTP}
-                onChange={(e) => setEnteredOTP(e.target.value)}
-                className="w-full p-2 border rounded-lg text-black"
-                placeholder='Enter OTP'
-              />
-             
-              {otperror &&  <span className='text-red-700'>*{otperror}</span>}
-            </div>
-            <button type="button" onClick={handleSendOTP} disabled={otploading} className="mt-6 bg-green-500 text-white p-2 rounded-lg">{otploading ? 'Sending..': 'Send OTP'}</button>
-          </div>
 
           <h2 className="text-2xl font-bold mb-5 text-center">Add Nominee Details</h2>
           {/* Full Name */}
@@ -439,12 +464,12 @@ const Admin_Edit_Profile: React.FC = () => {
             <div>
               <label className="block font-medium">Nominee KYC Document Front</label>
               <input type="file" onChange={handlenomineefront} />
-              {auth.userData && <img src={`http://localhost:4000/${auth.userData.nomineeDocumentFront}`} alt="KYC Doc" className="w-36 mt-2 h-36 object-fit" /> }
+              {auth && <img src={`http://localhost:4000/${auth.nomineeDocumentFront}`} alt="KYC Doc" className="w-72 h-72 mt-2" /> }
             </div>
             <div>
               <label className="block font-medium">Nominee KYC Document Back</label>
             <input type="file" onChange={handlenomineeback} />
-              {auth.userData && <img src={`http://localhost:4000/${auth.userData.nomineeDocumentBack}`} alt="KYC Doc 1" className="w-36 mt-2 h-36 object-fit" />}
+              {auth && <img src={`http://localhost:4000/${auth.nomineeDocumentBack}`} alt="KYC Doc 1" className="w-72 h-72 mt-2" />}
             </div>
           </div>
 
@@ -540,7 +565,8 @@ const Admin_Edit_Profile: React.FC = () => {
 
       
     </div>
+   </>
   );
 };
 
-export default Admin_Edit_Profile;
+export default EditUser;

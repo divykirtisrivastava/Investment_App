@@ -43,10 +43,10 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validate()) {
-        let result = await axios.post('https://actl.co.in/shop/adminlogin', formData)
+        let result = await axios.post('http://localhost:4000/trade/adminlogin', formData)
       if(result.data == true) {
           setAdminFlag(true)
-          navigation('/admin')
+          navigation('/')
         }
        else {
         alert("You Enter the wrong details")

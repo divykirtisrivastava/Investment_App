@@ -19,7 +19,8 @@ import { FaQuestion } from "react-icons/fa";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import Link from 'next/link';
 import useAuth from '@/hooks/useAuth';
-
+import Image from 'next/image';
+import logo from '../../public/logo.png'
 
 
 
@@ -30,7 +31,7 @@ export default function Admin_SideBar() {
     let [isOpen3 ,setIsOpen3] = useState(false)
     let [isOpen4 ,setIsOpen4] = useState(false)
     let [isOpen5 ,setIsOpen5] = useState(false)
-    let {logout} = useAuth()
+    let {logout , showmenu} = useAuth()
     // function handleLogout(){
     //     clientLogout()
     //     window.location.reload()
@@ -41,7 +42,7 @@ export default function Admin_SideBar() {
   return (
     <>
     <div className='' >
-        <h1 className='text-center text-3xl font-bold uppercase p-5 h-[150px] bg-white text-black flex justify-center items-center'> <Link href="/dashboard"> Logo</Link></h1>
+        <h1 className='text-center text-3xl font-bold uppercase h-[150px] bg-black text-black flex justify-center items-center'> <Link href="/dashboard"><Image src={logo} alt='no found' className='w-full '/></Link></h1>
         <div className=''>
             <ul>
                 {/* Dashboard */}
@@ -73,28 +74,25 @@ export default function Admin_SideBar() {
                     </ul>
                 </li>
 
-
-
-                    {/* Fund Transfer */}
-                <li
+                {/* Fund Transfer */}
+                {/* <li
                 onClick={()=>setIsOpen2(!isOpen2)}
                 ><Link href='#' className='block pl-5 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><BiTransfer   className='inline text-2xl' /> &nbsp;&nbsp;Fund Transfer{isOpen2?<TiArrowSortedUp className='inline relative left-[60px]' />:<TiArrowSortedDown className='inline relative left-[60px]' />}</Link>
                     <ul className={`${isOpen2?"block":"hidden"}`}>
                         <li><Link href='/dashboard/ptoptransfer' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'> <FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;P To P Transfer</Link></li>
-                        {/* <li><Link href='' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;Internal Transfer</Link></li> */}
+                        <li><Link href='' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;Internal Transfer</Link></li>
                         <li><Link href='/dashboard/ptophistory' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;P To P Transfer History</Link></li>
-                        {/* <li><Link href='/dashboard/selfdepositchargehistory' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;Self Diposit Charge History</Link></li> */}
-                        {/* <li><Link href='' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;Admin Transfer History</Link></li> */}
+                        <li><Link href='/dashboard/selfdepositchargehistory' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;Self Diposit Charge History</Link></li>
+                        <li><Link href='' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;Admin Transfer History</Link></li>
                     </ul>
-                </li>
-
+                </li> */}
 
                 {/* WithDrawal section */}
                 <li
                 onClick={()=>setIsOpen3(!isOpen3)}
                 ><Link href='#' className='block pl-5 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><BsBank2   className='inline text-2xl' /> &nbsp;&nbsp;WithDrawal section{isOpen3?<TiArrowSortedUp className='inline relative left-[8px]' />:<TiArrowSortedDown className='inline relative left-[8px]' />}</Link>
                     <ul className={`${isOpen3?"block":"hidden"}`}>
-                        <li><Link href='/dashboard/withdrawalsendrequest' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'> <FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;Send Request</Link></li>
+                        <li><Link href='/dashboard/sendwithrawalrequest' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'> <FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;Send Request</Link></li>
                         <li><Link href='/dashboard/withdrawalhistory' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp; WithDrawal History</Link></li>
                     </ul>
                 </li>
@@ -106,14 +104,14 @@ export default function Admin_SideBar() {
 
 
 
-                <li
+                {/* <li
                 onClick={()=>setIsOpen4(!isOpen4)}
                 ><Link href='#' className='block pl-5 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><FaUsers   className='inline text-2xl' /> &nbsp;&nbsp;My Team{isOpen4?<TiArrowSortedUp className='inline relative left-[105px]' />:<TiArrowSortedDown className='inline relative left-[105px]' />}</Link>
                     <ul className={`${isOpen4?"block":"hidden"}`}>
                         <li><Link href='' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'> <FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;Sponsor Team</Link></li>
                         <li><Link href='' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;All Team Member</Link></li>
                     </ul>
-                </li>
+                </li> */}
 
 
 
@@ -122,12 +120,12 @@ export default function Admin_SideBar() {
 
                 {/* Payout Suummary */}
 
-                <li><Link href='/dashboard/' className='block pl-5 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl font-semibold'><GiMoneyStack  className='inline text-2xl' /> &nbsp;&nbsp;Payout Summary</Link></li>
+                <li><Link href='/dashboard/withdrawalhistory' className='block pl-5 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl font-semibold'><GiMoneyStack  className='inline text-2xl' /> &nbsp;&nbsp;Payout Summary</Link></li>
 
 
                 {/* Income Reports */}
 
-                <li
+                {/* <li
                 onClick={()=>setIsOpen5(!isOpen5)}
                 ><Link href='#' className='block pl-5 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><MdOutlineAttachMoney   className='inline text-2xl' /> &nbsp;&nbsp;Income Reports{isOpen5?<TiArrowSortedUp className='inline relative left-[40px]' />:<TiArrowSortedDown className='inline relative left-[40px]' />}</Link>
                     <ul className={`${isOpen5?"block":"hidden"}`}>
@@ -137,19 +135,19 @@ export default function Admin_SideBar() {
                         <li><Link href='' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;Reward Income</Link></li>
                         <li><Link href='' className='block pl-10 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl  font-semibold'><FaRegDotCircle className='inline text-sm'/>&nbsp;&nbsp;Rewards bonus Income </Link></li>
                     </ul>
-                </li>
+                </li> */}
 
 
 
                 {/* Member Tree */}
 
 
-                <li><Link href='/dashboard/' className='block pl-5 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl font-semibold'><FaPeopleGroup  className='inline text-2xl' /> &nbsp;&nbsp;Member Tree</Link></li>
+                {/* <li><Link href='/dashboard/' className='block pl-5 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl font-semibold'><FaPeopleGroup  className='inline text-2xl' /> &nbsp;&nbsp;Member Tree</Link></li> */}
 
 
                 {/* Help Center */}
 
-                <li><Link href='/dashboard/' className='block pl-5 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl font-semibold'><FaQuestion  className='inline text-2xl' /> &nbsp;&nbsp;Help Center</Link></li>
+                <li><Link href='/dashboard/help' className='block pl-5 p-2 hover:bg-gray-700 active:bg-slate-950 ease-linear  border-b border-b-gray-500 text-xl font-semibold'><FaQuestion  className='inline text-2xl' /> &nbsp;&nbsp;Help Center</Link></li>
 
 
                 {/* Signuot */}

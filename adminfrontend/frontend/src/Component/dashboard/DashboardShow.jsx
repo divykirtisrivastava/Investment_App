@@ -1,94 +1,79 @@
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import AdminNav from './AdminNav';
 import AdminSidebar from './AdminSidebar';
 
-export default function DashboardShow({ title, value, onViewMore }) {
-  let [data,setData] = useState({
-    productLength:'',
-    categoryLength:'',
-    subCategoryLength:'',
-    pendingOrder:'',
-    deliveredOrder:'',
-  })
+export default function Users() {
+  const [data, setData] = useState([]);
+
   async function getProfile() {
     try {
-      let result = await axios.get('https://actl.co.in/shop/getProduct');
-      let responce = await axios.get('https://actl.co.in/shop/categoryget');
-      let res = await axios.get('https://actl.co.in/shop/subcategoryget');
-      let order = await axios.get('https://actl.co.in/shop/getOrder');
-   let pending = order.data.filter(product => product.status === 'pending')
-   let delivered = order.data.filter(product => product.status === 'Delivered')
-        setData({ productLength: result.data.length, categoryLength: responce.data.length,subCategoryLength:res.data.length,pendingOrder: pending.length, deliveredOrder:delivered.length })
-      
+      let result = await axios.get('http://localhost:4000/trade/getcontact');
+      if(result){
+        setData(result.data);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   }
-  useEffect(()=>{
-getProfile()
-  },[])
-  // console.log(data)
+
+  useEffect(() => {
+    getProfile();
+  }, []); // Empty dependency array to fetch data only once
+
+  // Handler functions
+  const handleDelete = async (id) => {
+    let flag = confirm("Are you Sure to Delete")
+    if(flag){
+     await axios.delete(`https://actl.co.in/shop/deleteProduct/${id}`);
+     getProfile()
+    }
+  };
+
+  async function handleUpdate(data, id) {
+    let flag = confirm("Are U sure to Change Status")
+    if(flag){
+    await axios.put(`https://actl.co.in/shop/updateOrder/${id}`, {
+        'status':data
+    });
+    getProfile()
+    }
+  }
   return (
     <>
-      <AdminNav/>
-      <AdminSidebar/>
-    <div className='absolute ml-[300px] mt-[120px]'>
-      <div className="flex flex-col gap-4">
-        {/* Top Row: 3 Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* 1st Card */}
-          <div className="bg-blue-200 shadow-md rounded-lg p-4 flex flex-col gap-6 items-center h-40 w-full border border-gray-200">
-            <div className="mb-3">
-              <h2 className="text-xl font-bold text-gray-900">Total Product</h2>
-            </div>
-            <div>
-              <h3 className="text-5xl font-semibold text-gray-800">{data.productLength ? data.productLength : '0'} </h3>
-            </div>
-          </div>
-          {/* 2nd Card */}
-          <div className="bg-blue-200 shadow-md rounded-lg p-4 flex flex-col gap-6 items-center h-40 w-full border border-gray-200">
-            <div className="mb-3">
-              <h2 className="text-xl font-bold text-gray-900">Total Category</h2>
-            </div>
-            <div>
-            <h3 className="text-5xl font-semibold text-gray-800">{data.categoryLength ? data.categoryLength : '0'} </h3>
-            </div>
-          </div>
-          {/* 3rd Card */}
-          <div className="bg-blue-200 shadow-md rounded-lg p-4 flex flex-col gap-6 items-center h-40 w-full border border-gray-200">
-            <div className="mb-3">
-              <h2 className="text-xl font-bold text-gray-900">Total Sub-Category</h2>
-            </div>
-            <div>
-            <h3 className="text-5xl font-semibold text-gray-800">{data.subCategoryLength ? data.subCategoryLength : '0'} </h3>
-            </div>
-          </div>
-        </div>
-        {/* Bottom Row: 2 Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {/* 4th Card */}
-          <div className="bg-pink-200 shadow-md rounded-lg p-4 flex flex-col gap-6 items-center h-40 w-full border border-gray-200">
-            <div className="mb-3">
-              <h2 className="text-xl font-bold text-gray-900">Pending Orders</h2>
-            </div>
-            <div>
-            <h3 className="text-5xl font-semibold text-gray-800">{data.pendingOrder ? data.pendingOrder : '0'} </h3>
-            </div>
-          </div>
-          {/* 5th Card */}
-          <div className="bg-green-200 shadow-md rounded-lg p-4 flex flex-col gap-6 items-center h-40 w-full border border-gray-200">
-            <div className="mb-3">
-              <h2 className="text-xl font-bold text-gray-900">Delivered Orders</h2>
-            </div>
-            <div>
-            <h3 className="text-5xl font-semibold text-gray-800">{data.deliveredOrder ? data.deliveredOrder : '0'} </h3>
-            </div>
-          </div>
-        </div>
+    <AdminNav/>
+    <AdminSidebar/>
+    <div className='absolute flex flex-col items-center w-[80%] left-[20%] top-20'>
+     
+      <div className="h-auto w-full rounded-lg bg-pink-100">
+      <h1 className="text-3xl font-bold mb-6 text-center">Messages</h1>
+      <div className="overflow-x-auto">
+      <table className="min-w-full bg-white border border-gray-200">
+        <thead>
+          <tr>
+            <th className="py-2 px-4 bg-gray-200 font-bold text-left">No.</th>
+            <th className="py-2 px-4 bg-gray-200 font-bold text-left">name</th>
+            <th className="py-2 px-4 bg-gray-200 font-bold text-left">email</th>
+            <th className="py-2 px-4 bg-gray-200 font-bold text-left">Phone</th>
+            <th className="py-2 px-4 bg-gray-200 font-bold text-left">Message</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((product, index) => (
+            <tr key={index} className="border-t border-gray-200">
+              <td className="py-2 px-4">{index +1}</td>
+              <td className="py-2 px-4">{product.name}</td>
+              <td className="py-2 px-4">{product.email}</td>
+              <td className="py-2 px-4">{product.phone}</td>
+              <td className="py-2 px-4">{product.message}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
       </div>
     </div>
-</>
-
-  )
+    </>
+  );
 }

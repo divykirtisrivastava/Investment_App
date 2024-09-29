@@ -23,7 +23,7 @@ export default function RootLayout({
       <div className='w-[22%] h-screen overflow-auto background-color hidden md:block fixed'>
         <Admin_SideBar/>
       </div>
-      <div className='w-full md:w-[78%] h-auto relative left-[22%]'>
+      <div className='w-full md:w-[78%] h-auto relative md:left-[22%]'>
         <AdminNavbar/>
         <div className='w-full h-auto p-5'>
             {children}

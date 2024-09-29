@@ -65,15 +65,15 @@ exports.verifyClient = (req, res)=>{
 exports.getSignByEmail=(req,res)=>{
     let email = req.params.email
     let sql='Select * from sign_up where email = ?'
-    console.log(email)
+    // console.log(email)
     db.query(sql,[email],(err, result)=>{
         if(err) throw err
         else{
             if(result.length > 0){
-                console.log(result)
+                // console.log(result)
                 res.send(true)
             }else{
-                console.log(result)
+                // console.log(result)
                 res.send(false)
             }
         }
@@ -121,7 +121,7 @@ exports.viewSign = (req,res)=>{
 exports.updateSign = (req, res)=>{
     let id = req.params.id
     let newData = req.body
-    console.log(newData)
+    // console.log(newData)
     let sql = 'update sign_up set ? where id = ?'
     db.query(sql, [newData, id], (err, result)=>{
         if(err) throw err
@@ -136,7 +136,7 @@ exports.paymentSave=(req,res)=>{
     let upi = req.body.upi
     let email= req.body.email
     let amount=req.body.amount
-console.log(req.body)
+// console.log(req.body)
     let value=[[upi,email,amount]]
     let sql=`insert into payment_table(upi,email,amount) values ?`
     db.query(sql,[value],(err,result)=>{

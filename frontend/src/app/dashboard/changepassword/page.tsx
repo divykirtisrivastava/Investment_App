@@ -61,7 +61,7 @@ const Admin_Change_Password = () => {
   };
 
   return (
-    <div className="w-[80%] h-screen m-auto flex items-center rounded-xl justify-center background-color border">
+    <div className="w-[95%] md:w-[80%] h-screen m-auto flex items-center rounded-xl justify-center background-color border">
       <div className="w-full p-10 rounded-lg shadow-lg h-3/4">
         <h2 className="text-xl font-semibold text-white mb-6 text-center">Change Password</h2>
         <form onSubmit={handleSubmit} className="space-y-6">

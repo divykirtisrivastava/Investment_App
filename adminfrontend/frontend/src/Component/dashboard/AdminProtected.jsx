@@ -5,7 +5,7 @@ import UserContext from '../../context/UserContext'
 export default function AdminProtected({children}) {
  let {adminflag} = useContext(UserContext)
 
- if(true) {
+ if(adminflag) {
     return children
  }else{
     return <Navigate to='/adminlogin'/>

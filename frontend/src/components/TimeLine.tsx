@@ -5,7 +5,7 @@ import React from "react";
 import { Timeline } from "@/components/ui/timeline";
 import t1 from '../../public/t1.jpeg'
 import t2 from '../../public/t2.jpg'
-import t3 from '../../public/t12.webp'
+import t3 from '../../public/pic4.jpeg'
 import t4 from '../../public/t4.jpeg'
 import t5 from '../../public/t5.jpg'
 import t6 from '../../public/t6.jpg'

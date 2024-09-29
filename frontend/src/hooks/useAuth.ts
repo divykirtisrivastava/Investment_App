@@ -21,6 +21,7 @@ type AuthState = {
 const useAuth = () => {
     const router = useRouter();
     const [auth, setAuth] = useState<AuthState>({ token: null, userData: '' });
+    let [showmenu, setShowmenu ] = useState<boolean>(false)
 
     const clientLogin = async (email: string, password: string): Promise<boolean> => {
         try {
@@ -75,7 +76,7 @@ const useAuth = () => {
         }
     }, []);
 
-    return { clientLogin, logout, auth, setAuth };
+    return { clientLogin, logout, auth, setAuth , showmenu, setShowmenu};
 };
 
 export default useAuth;

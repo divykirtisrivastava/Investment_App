@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer');
 function generateToken(data) {
   return jwt.sign({ id: data.id }, "hii", { expiresIn: '1d' })
 }
-
+let activeCrons = {}; 
 // GET: Retrieve all profiles
 exports.getAllProfiles = (req, res) => {
   connection.query('SELECT * FROM profile_table', (err, results) => {
@@ -29,7 +29,7 @@ exports.getProfileById = (req, res) => {
 // POST: Create a new profile with image upload
 exports.createProfile = (req, res) => {
   const {
-    sponsorEmail, sponsorName, firstName, lastName, dob, motherName, number,
+    sponsorEmail, firstName, lastName, dob, motherName, number,
     email, documentType, documentNumber, password, confirmPassword
   } = req.body;
 
@@ -40,7 +40,6 @@ exports.createProfile = (req, res) => {
 
     const newProfile = {
       sponsorEmail: sponsorEmail,
-      sponsorName: sponsorName,
       first_name: firstName,
       last_name: lastName,
       dob: dob,
@@ -74,8 +73,8 @@ exports.verifyOtp =async (req, res) => {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'amitmrj914011@gmail.com', // Your email
-      pass: 'azsw pqru lywb hcxt', // Your email password (or app-specific password)
+      user: 'filixotrade@gmail.com', // Your email
+      pass: 'ewvd tbro lcwo kotz', // Your email password (or app-specific password)
     },
   });
 
@@ -134,20 +133,19 @@ exports.updateProfile = (req, res) => {
   if(req.files['nomineeDocumentBack']){
     updatedData = {...updatedData,nomineeDocumentBack: req.files['nomineeDocumentBack'][0].filename}
   }
-  console.log(updatedData)
-
   
-  const query = 'UPDATE profile_table SET ? , deposite = deposite - 20 WHERE email = ?';
   try {
+  const query = 'UPDATE profile_table SET ? , deposite = deposite - 20 WHERE email = ?';
     connection.query(query, [updatedData, email], (err, results) => {
       if (err) throw err;
-      // if (results.affectedRows === 0) return res.status(404).json({ message: 'Profile not found' });
+      console.log(results)
       res.send("updated");
     });
   } catch (error) {
     console.log(error)
   }
 };
+
 exports.updatePassword = (req, res) => {
   const email = req.params.email;
   let password = req.body.password;
@@ -197,3 +195,162 @@ exports.verifyClient = (req, res) => {
   }
 }
 
+// Function to update the profile
+exports.updateProfileById = (req, res) => {
+  const id = req.params.id;
+  let updatedData = req.body;
+
+  // Check for profile picture and document updates
+  if (req.files['profilePic']) {
+    updatedData = { ...updatedData, profilePic: req.files['profilePic'][0].filename };
+  }
+  if (req.files['documentFront']) {
+    updatedData = { ...updatedData, documentFront: req.files['documentFront'][0].filename };
+  }
+  if (req.files['documentBack']) {
+    updatedData = { ...updatedData, documentBack: req.files['documentBack'][0].filename };
+  }
+  if (req.files['nomineeDocumentFront']) {
+    updatedData = { ...updatedData, nomineeDocumentFront: req.files['nomineeDocumentFront'][0].filename };
+  }
+  if (req.files['nomineeDocumentBack']) {
+    updatedData = { ...updatedData, nomineeDocumentBack: req.files['nomineeDocumentBack'][0].filename };
+  }
+
+  // console.log(updatedData);
+
+  const query = 'UPDATE profile_table SET ? WHERE id = ?';
+  try {
+    connection.query(query, [updatedData, id], (err, results) => {
+      if (err) throw err;
+
+      connection.query('SELECT * FROM profile_table WHERE id = ?', [id], (err, result) => {
+        if (err) throw err;
+
+        if (result[0].status === 'verified') {
+          const { tradeTotalIncome, email } = result[0];
+          try {
+            runUpdate(tradeTotalIncome, email);
+            res.send("Update started with cron job.");
+          } catch (error) {
+            console.error(error);
+            res.send("Error starting update.");
+          }
+        } else {
+          return res.send("Deposit updated, no profile change needed.");
+        }
+      });
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating profile.");
+  }
+};
+
+// Function to update account balances
+const updateAccountBalances = (email) => {
+  const cronData = activeCrons[email];
+  if (!cronData) return; // No cron job for this user
+
+  try {
+    const multiplier = cronData.multiplier;
+    connection.query(`UPDATE profile_table SET totalIncome = ROUND(totalIncome * ?, 2),referralIncome = (IFNULL(referralIncome, 0) + ROUND(totalDirectBusiness * 0.0016, 2))   WHERE email = ?`, [multiplier, email], (error, results) => {
+      if (error) {
+        console.error('Error updating balances:', error);
+        return;
+      }
+      console.log(`Updated balances for ${results.affectedRows} accounts with multiplier: ${multiplier}`);
+    });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Function to start or update cron job for a user
+let runUpdate = (percentage, email) => {
+  const multiplier = 1 + parseFloat(percentage) / 100;
+
+  if (activeCrons[email]) {
+    // Update the multiplier of the existing cron job
+    activeCrons[email].multiplier = multiplier;
+    console.log(`Cron job for ${email} updated with new multiplier: ${multiplier}`);
+  } else {
+    // If no cron job exists for this user, create a new one
+    activeCrons[email] = {
+      multiplier,
+      cronJob: cron.schedule('*/1 * * * *', () => {
+        updateAccountBalances(email); // The cron job will run every minute
+      })
+    };
+    console.log(`Cron job scheduled for ${email} with initial multiplier: ${multiplier}`);
+  }
+};
+
+// Function to stop a cron job if needed
+const stopCronJob = (email) => {
+  if (activeCrons[email]) {
+    activeCrons[email].cronJob.stop(); // Stop the cron job
+    delete activeCrons[email]; // Remove from activeCrons
+    console.log(`Cron job for ${email} stopped.`);
+  }
+};
+
+exports.getEmailVerify = (req, res) => {
+  let email = req.params.email
+  connection.query('SELECT * FROM profile_table where email = ?',[email], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if(results.length > 0){
+      res.send(false)
+    }else{
+      res.send(true)
+    }
+  });
+};
+
+
+exports.updateReferral = (req, res)=>{
+  let sponsorEmail = req.params.sponsorEmail
+  let email = req.params.email
+  // console.log(sponsorEmail)
+  connection.query('SELECT * FROM profile_table where sponsorEmail = ?',[sponsorEmail], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    if(results.length > 0){
+      let amount = results.reduce((acc, current)=> acc + JSON.parse(current.deposite),0) || ''
+      console.log(amount)
+      if(amount){
+      connection.query('UPDATE profile_table SET totalDirectBusiness = ? WHERE email = ?', [amount, email],(err, result)=>{
+        if(err) throw err
+        else{
+          res.send("totalDirectBusiness updated")
+        }
+      })
+      }
+    }else{
+      res.send(true)
+    }
+  })
+}
+
+exports.contact = (req, res)=>{
+  // console.log(req.body)
+  let email = req.body.email
+  let name = req.body.name
+  let phone = req.body.phone
+  let message = req.body.message
+  let value = [[email,name,phone,message]]
+  console.log(req.body)
+  connection.query("insert into conact(email,name,phone,message) value ?", [value], (err, result)=>{
+    if(err) throw err;
+    else{
+      res.send("contact submit")
+    }
+  })
+}
+exports.getcontact = (req, res)=>{
+  connection.query("select * from conact", (err, result)=>{
+    if(err) throw err;
+    else{
+      res.json(result)
+    }
+  })
+}

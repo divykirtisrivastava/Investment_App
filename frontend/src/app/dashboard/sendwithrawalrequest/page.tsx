@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import qr from '../../../../public/paymentW.jpeg'
 import Image from 'next/image';
-const SendDepositeRequest = () => {
+const SendWithrawalRequest = () => {
     let { auth } = useAuth()
     const [loading, setLoading] = useState<boolean>(false);
     const [otploading, setotpLoading] = useState<boolean>(false);
@@ -24,11 +24,10 @@ const SendDepositeRequest = () => {
 
     let [depositeData, setDepositeData] = useState<string | any>({
         email: auth.userData.email,
-        depositeMethod: '',
+        withrawalMethod: '',
         currency: '',
-        depositeAmount: '',
+        withrawalAmount: '',
         selectNetwork: '',
-        transactionImage: null,
         transactionId: '',
         transactionDate: new Date().toLocaleDateString('en-CA')
     })
@@ -71,37 +70,40 @@ const SendDepositeRequest = () => {
     };
 
     async function handleCashSubmit() {
-        console.log(depositeData)
-        if (parseInt(depositeData.depositeAmount) > 1599) {
-            if (enteredOTP === generatedOTP) {
-                await axios.post(`http://localhost:4000/trade/depositeRequest`, depositeData)
-                alert("Your Request is Submitted")
-                router.push('/dashboard')
+        if(auth.userData.status == 'verified'){
+            if (parseInt(depositeData.withrawalAmount) <= (auth.userData.totalIncome - auth.userData.deposite )) {
+                if (enteredOTP === generatedOTP) {
+                    await axios.post(`http://localhost:4000/trade/withrawalRequest`, depositeData)
+                    alert("Your Request is Submitted")
+                    router.push('/dashboard')
+                } else {
+                    setOtpError('Fill OTP')
+                    alert("Please Verify OTP")
+                }
             } else {
-                setOtpError('Fill OTP')
-                alert("Please Verify OTP")
+                alert("you can only rise request your Withdrawable Balance")
             }
-        } else {
-            alert("you can enter 1,28,000 INR or above")
+        }else{
+            alert("you don't have varified account")
         }
     }
     async function handleUsdt() {
-        // if (auth.userData.status == 'verified') {
-            if (enteredOTP === generatedOTP && depositeData.transactionImage && depositeData.transactionId) {
-                await axios.post(`http://localhost:4000/trade/depositeRequest`, depositeData,{
-                    headers:{
-                        'Content-Type':'multipart/form-data'
-                    }
-                })
+       if(auth.userData.status == 'verified'){
+        if (parseInt(depositeData.withrawalAmount) <= (auth.userData.totalIncome - auth.userData.deposite )) {
+            if (enteredOTP === generatedOTP && depositeData.transactionId) {
+                await axios.post(`http://localhost:4000/trade/withrawalRequest`, depositeData)
                 alert("Your Request is Submitted")
                 router.push('/dashboard') 
             } else {
-                setOtpError('Fill OTP')
+                setOtpError('Fill OTP and transactionId')
                 alert("Please Fill all Fields")
             }
-        // } else {
-        //     alert("you are not eligible to deposite")
-        // }
+        } else {
+            alert("you can only rise request your Withdrawable Balance")
+        }
+       }else{
+        alert("you don't have varified account")
+       }
     }
     const textToCopy = 'TN37JKrtJ3cGiyEyam3vFh7AEMPnoHTwkt';
 function handleCopy(){
@@ -117,18 +119,18 @@ function handleinpchange(e:any){
 
     // Convert INR to USD and update USD input
     const usdValue = (parseFloat(inrValue) / 80).toFixed(2);
-    setDepositeData({ ...depositeData, depositeAmount: usdValue });
+    setDepositeData({ ...depositeData, withrawalAmount: usdValue });
 }
     return (
-        <div className="flex justify-center items-center min-h-screen background-color md:border rounded-xl px-2 md:p-4 mt-20 md:mt-0">
-            {flag ? <div className="background-color md:border  text-white px-1 md:p-8 rounded-lg shadow-lg w-full">
-                <h2 className="text-2xl font-semibold mb-6">Deposite Method</h2>
+        <div className="flex justify-center items-center min-h-screen background-color md:border rounded-xl px-1 md:p-4 mt-20 md:mt-0">
+           <div className="background-color md:border  text-white px-2 md:p-8 rounded-lg shadow-lg w-full">
+                <h2 className="text-2xl font-semibold mb-6">Withrawal Method</h2>
 
                 {/* Transaction Type Dropdown */}
                 <select
                     className="w-full bg-gray-900 text-white p-3 border border-gray-600 rounded mb-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    value={depositeData.depositeMethod}
-                    onChange={(e) => setDepositeData({ ...depositeData, depositeMethod: e.target.value })}
+                    value={depositeData.withrawalMethod}
+                    onChange={(e) => setDepositeData({ ...depositeData, withrawalMethod: e.target.value })}
                 >
                     <option>Select Transaction Type</option>
                     <option>Indian Cash</option>
@@ -136,13 +138,14 @@ function handleinpchange(e:any){
                 </select>
 
                 {/* INDIAN CASE Form */}
-                {depositeData.depositeMethod === 'Indian Cash' && (
+                {depositeData.withrawalMethod === 'Indian Cash' && (
                     <div className="bg-gray-700 p-6 rounded mb-4">
                         <h3 className="text-xl mb-4 text-red-500">*Important to know</h3>
-                        <p className="text-xl mb-2">*The Minimum deposit is $1,600 All deposits below the limit will be lost.</p>
-                        <p className="text-xl mb-2 text-red-500">*A 15% extra deposit is required upfront for deduction charges, and no additional fees will be charged later when withdrawing, this amount will
-                            already be deducted.</p>
-                        <p className="text-xl mb-2 ">*Carefully check the address. The transaction well be lost if the address is incorrect.</p>
+                        <p className="text mb-2">*The first withdrawal can only be made after 1 month from the initial deposit.</p>
+                        <p className="text mb-2">*Withdrawals may sometimes be delayed due to server issues, but will be processed within 24 hours, up to a maximum of 48 hours or 3
+                        business days.</p>
+                        <p className="text mb-2">*The amount deposited must stay in the account for a minimum of 1 month before any withdrawals are allowed</p>
+                        <p className="text mb-8 ">*Only one withdrawal is allowed per month.</p>
                         <div className="mb-4">
                             <label className="block text-xl font-medium mb-2">Currency</label>
                             <select
@@ -165,7 +168,7 @@ function handleinpchange(e:any){
                         <div className="mb-4">
                             <label className="block text-sm font-medium mb-2">Amount in USD</label>
                             <div className="w-full p-3 bg-gray-900 text-white border border-gray-600 rounded">
-                                {depositeData.depositeAmount}
+                                {depositeData.withrawalAmount}
                             </div>
                         </div>
                         <div className="mb-4 flex flex-col">
@@ -189,16 +192,14 @@ function handleinpchange(e:any){
                 )}
 
                 {/* USDT CASE Form */}
-                {depositeData.depositeMethod === 'USDT' && (
+                {depositeData.withrawalMethod === 'USDT' && (
                     <div className="bg-gray-700 p-6 rounded mb-4">
                         <h3 className="text-xl mb-4 text-red-500">*Important to know</h3>
-                        <p className="text-xl mb-2">*The Minimum deposit is $1,600 All deposits below the limit will be lost.</p>
-                        <p className="text-xl mb-2 text-red-500">*A 15% extra deposit is required upfront for deduction charges, and no additional fees will be charged later when withdrawing, this amount will
-                            already be deducted.</p>
-                        <p className="text-xl mb-2 ">*Carefully check the address. The transaction well be lost if the address is incorrect.</p>
-
-
-
+                        <p className="text mb-2">*The first withdrawal can only be made after 1 month from the initial deposit.</p>
+                        <p className="text mb-2">*Withdrawals may sometimes be delayed due to server issues, but will be processed within 24 hours, up to a maximum of 48 hours or 3
+                        business days.</p>
+                        <p className="text mb-2">*The amount deposited must stay in the account for a minimum of 1 month before any withdrawals are allowed</p>
+                        <p className="text mb-8 ">*Only one withdrawal is allowed per month.</p>
 
                         <div className="my-4">
                             <label className="block text-xl font-medium mb-2">Select Network</label>
@@ -231,75 +232,44 @@ function handleinpchange(e:any){
                                 type="number"
                                 placeholder="amount in usd"
                                 className="w-full p-3 bg-gray-900 text-white border border-gray-600 rounded"
-                                value={depositeData.depositeAmount}
-                                onChange={(e) => setDepositeData({ ...depositeData, depositeAmount: e.target.value })}
+                                value={depositeData.withrawalAmount}
+                                onChange={(e) => setDepositeData({ ...depositeData, withrawalAmount: e.target.value })}
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="block text-xl font-medium mb-2">Transaction Id</label>
+                            <input
+                                type="text"
+                                placeholder="Enter Your Transaction Id"
+                                className="w-full p-3 bg-gray-900 text-white border border-gray-600 rounded"
+                                value={depositeData.transactionId}
+                                onChange={(e) => setDepositeData({ ...depositeData, transactionId: e.target.value })}
                             />
                         </div>
                         {/* Confirm Button */}
-                        <button className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded transition duration-300 ease-in-out" onClick={handleFlag}>
+                        <div className="mb-4 flex flex-col">
+                            <label className="block text-sm font-medium mb-2">Enter OTP</label>
+                            <input
+                                type="text"
+                                placeholder="Enter OTP"
+                                value={enteredOTP}
+                                onChange={(e) => setEnteredOTP(e.target.value)}
+                                className="w-full p-3 bg-gray-900 text-white border border-gray-600 rounded"
+                            />
+                            {otperror && <span className='text-red-700'>*{otperror}</span>}
+
+                            <button type="button" onClick={handleSendOTP} disabled={otploading} className="mt-3 bg-black text-white p-2 rounded-lg">{otploading ? 'Sending..' : 'Send OTP'}</button>
+                        </div>
+                        {/* Confirm Button */}
+                        <button className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded transition duration-300 ease-in-out" onClick={handleUsdt}>
                             Confirm Your Request
                         </button>
 
                     </div>
                 )}
-            </div> :
-                <div className=" p-6 rounded mb-4 w-full">
-                     <h2 className="text-2xl font-semibold mb-6">Deposite Method</h2>
-                    <div className='w-full flex gap-3 flex-col md:flex-row'>
-                        <div className='w-full md:w-1/2 border-white border-2 rounded-lg py-2 px-4'>
-                            <h3 className="text-xl mb-4 text-white">Scan this QR Code with the camera on your phone</h3>
-                            <Image src={qr} alt="" width={200} height={100} />
-                        </div>
-                        <div className='w-full md:w-1/2 border-white border-2 rounded-lg py-2 px-4'>
-                            <h3 className="text-xl mb-4 text-white">Transfer On Below Address TRC20</h3>
-                            <div className='w-full h-10  bg-gray-200 rounded-lg flex items-center text-black text-xl font-bold justify-between overflow-hidden border'>
-                                <p className='pl-1 overflow-hidden'>{textToCopy}</p>
-                                <button onClick={handleCopy} className='bg-black p-5 rounded-lg text-white cursor-pointer'>Copy</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="my-4">
-                        <label className="block text-xl font-medium mb-2">Transaction Image</label>
-                        <input
-                            type="file"
-                            name='transactionImage'
-                            onChange={handleImage}
-                            className="w-full p-3 bg-gray-900 text-white border border-gray-600 rounded"
-                            required
-                        />
-                    </div>
-                    <div className="my-4">
-                        <label className="block text-xl font-medium mb-2">Transaction Id</label>
-                        <input
-                            type="text"
-                            value={depositeData.transactionId}
-                            placeholder='Enter transactionId'
-                            onChange={(e) => setDepositeData({ ...depositeData, transactionId: e.target.value })}
-                            className="w-full p-3 bg-gray-900 text-white border border-gray-600 rounded"
-                            required />
-                    </div>
-
-                    <div className="mb-4 flex flex-col">
-                        <label className="block text-sm font-medium mb-2">Enter OTP</label>
-                        <input
-                            type="text"
-                            placeholder="Enter OTP"
-                            value={enteredOTP}
-                            onChange={(e) => setEnteredOTP(e.target.value)}
-                            className="w-full p-3 bg-gray-900 text-white border border-gray-600 rounded"
-                        />
-                        {otperror && <span className='text-red-700'>*{otperror}</span>}
-
-                        <button type="button" onClick={handleSendOTP} disabled={otploading} className="mt-3 bg-black text-white p-2 rounded-lg">{otploading ? 'Sending..' : 'Send OTP'}</button>
-                    </div>
-                    {/* Confirm Button */}
-                    <button className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded transition duration-300 ease-in-out" onClick={handleUsdt}>
-                        Confirm Your Request
-                    </button>
-
-                </div>}
+            </div> 
         </div>
     );
 };
 
-export default SendDepositeRequest;
+export default SendWithrawalRequest;

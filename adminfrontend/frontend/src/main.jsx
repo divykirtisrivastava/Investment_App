@@ -23,6 +23,8 @@ import AdminLogin from './Component/dashboard/AdminLogin.jsx'
 import AdminProtected from './Component/dashboard/AdminProtected.jsx'
 import DepositeReququest from './Component/DepositeReququest.jsx'
 import UserData from './Component/UserData.jsx'
+import EditUser from './Component/EditUser.jsx'
+import WithrawalRequest from './Component/WithrawalRequest.jsx'
 
 
 
@@ -38,7 +40,9 @@ let router= createBrowserRouter(
     <Route path='' element={<AdminProtected><DashboardShow/></AdminProtected>}/>
     <Route path='/depositerequest' element={<DepositeReququest/>}/>
     <Route path='/users' element={<UserData/>}/>
+    <Route path='/users/:id' element={<EditUser/>}/>
     <Route path='/adminlogin' element={<AdminLogin/>}/>
+    <Route path='/withrawalrequest' element={<WithrawalRequest/>}/>
     </Route>
     </>
   )

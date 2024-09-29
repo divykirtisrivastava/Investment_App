@@ -29,17 +29,18 @@ function MainNavbar({ className }: { className?: string }) {
   return (
     <div className={cn("fixed top-10 inset-x-0 w-full mx-auto z-50 backdrop-blur-md", className)}>
       <Menu setActive={setActive}>
-        <div className="relative w-full flex items-center justify-end gap-8 p-4 md:p-0 lg:p-4 md:px-0 lg:px-10">
+        <div className="relative w-full flex items-center justify-around gap-8  md:p-0 md:px-0 lg:px-10">
           {/* Logo */}
-          <div>
+          <div className="w-full md:w-48 flex justify-between items-center">
             <Image
               src={logo}
               alt="Logo"
-              className="absolute w-[300px] h-[200px] md:w-[300px] md:h-[240px] xl:w-[400px] xl:h-[340px] top-[-70px] left-0 md:top-[-70px] xl:top-[-110px] md:left-[-50px] xl:left-0 z-50"
+              // className="absolute w-[300px] h-[200px] md:w-[300px] md:h-[240px] xl:w-[400px] xl:h-[340px] top-[-70px] left-0 md:top-[-70px] xl:top-[-110px] md:left-[-50px] xl:left-0 z-50"
+              className="w-36 md:w-48 relative left-0"
             />
             {/* Mobile Menu Button */}
-          <div className="lg:hidden absolute right-0 top-0 z-50">
-            <button className="text-white focus:outline-none" onClick={toggleMobileMenu}>
+          <div className="block md:hidden">
+            <button className="text-white focus:outline-none mt-2" onClick={toggleMobileMenu}>
               {/* Mobile Menu Icon */}
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
@@ -49,7 +50,7 @@ function MainNavbar({ className }: { className?: string }) {
           </div>
 
           {/* Desktop Menu Links */}
-          <div className="hidden lg:flex gap-10 md:gap-4 xl:gap-10 text-lg lg:text-xl">
+          <div className="hidden lg:flex gap-10 md:gap-4 xl:gap-10 text-lg lg:text-lg">
             <Link href="/">
               <MenuItem setActive={setActive} active={active} item="HOME"></MenuItem>
             </Link>
@@ -97,14 +98,14 @@ function MainNavbar({ className }: { className?: string }) {
           {/* Auth Buttons (Desktop Only) */}
           <div className="hidden lg:flex gap-5">
             <Link
-              className="px-4 py-2 lg:px-5 lg:py-3 bg-gradient-to-l bg-blue-500 from-[#2E64C0] rounded-xl font-bold text-sm lg:text-xl uppercase tracking-wide"
+              className="px-4 py-2 lg:px-4 lg:py-2 bg-gradient-to-l bg-blue-500 from-[#2E64C0] rounded-md font-bold text-sm lg:text-base uppercase tracking-wider"
               href="/signup"
             >
               Register
             </Link>
             <Link
               href="/signin"
-              className="px-4 py-2 lg:px-5 lg:py-3 bg-gradient-to-l bg-blue-500 from-[#2E64C0] rounded-xl font-bold text-sm lg:text-xl uppercase tracking-wide"
+              className="px-4 py-2 lg:px-4 lg:py-2 bg-gradient-to-l bg-blue-500 from-[#2E64C0] rounded-md font-bold text-sm lg:text-base uppercase tracking-wider"
             >
               Sign In
             </Link>
@@ -133,7 +134,7 @@ function MainNavbar({ className }: { className?: string }) {
             {/* Auth Buttons (Mobile Only) */}
             <div className="mt-4">
               <Link
-                className="block text-center px-5 py-2 bg-gradient-to-l bg-blue-500 from-[#2E64C0] rounded-xl font-bold text-lg uppercase tracking-wide"
+                className="block text-center px-5 py-1 bg-gradient-to-l bg-blue-500 from-[#2E64C0] rounded-xl font-[600] text-lg uppercase tracking-wide"
                 href="/signup"
                 onClick={() => setMobileMenuOpen(false)}
               >
@@ -141,7 +142,7 @@ function MainNavbar({ className }: { className?: string }) {
               </Link>
               <Link
                 href="/signin"
-                className="block text-center mt-2 px-5 py-2 bg-gradient-to-l bg-blue-500 from-[#2E64C0] rounded-xl font-bold text-lg uppercase tracking-wide"
+                className="block text-center mt-2 px-5 py-1 bg-gradient-to-l bg-blue-500 from-[#2E64C0] rounded-xl font-[600] text-lg uppercase tracking-wide"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Sign In

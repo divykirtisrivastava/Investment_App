@@ -9,7 +9,7 @@ import { BiMailSend, BiPhone } from 'react-icons/bi';
 import { BsMailbox } from 'react-icons/bs';
 import { MdCallToAction } from 'react-icons/md';
 
-export default function Contact() {
+export default function Help() {
     const [email, setEmail] = useState<string | any>('');
     const [name, setName] = useState<string | any>('');
     const [phone, setPhone] = useState<string | any>('');
@@ -29,9 +29,9 @@ let router = useRouter()
     router.push('/')
   }
   return (
-    <div className='mt-[120px] md:mt-[190px] flex flex-col md:flex-row items-center justify-center md:items-start gap-4'>
-        <div className='flex flex-col items-start w-[90%] md:w-1/3'>
-            <h1 className='text-4xl font-bold'>Contact Us</h1>
+    <div className='mt-20 flex flex-col items-center justify-center gap-12'>
+        <div className='flex flex-col items-start w-1/2'>
+            <h1 className='text-4xl font-bold'>Help Center</h1>
             <p className='mt-5'>If you have any query, please contact on below detail:-</p>
             {/* <div className='flex gap-2 items-center mt-8'>
             <div className='w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center'>
@@ -46,7 +46,7 @@ let router = useRouter()
             <h1 className='text-2xl'>support@filixo.com</h1>
             </div>
         </div>
-    <div className="w-[90%] md:w-1/3 rounded md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+    <div className="w-1/2 rounded md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
     <h2 className="font-bold text-2xl tracking-wider text-center text-neutral-800 dark:text-neutral-200">
       Connect to FILIXO.COM
     </h2>

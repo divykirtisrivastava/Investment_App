@@ -51,7 +51,7 @@ exports.viewStatus = (req,res)=>{
 exports.updateStatus = (req, res)=>{
     // let id = req.params.id
     let message = req.body.message
-    console.log(message)
+    // console.log(message)
     let sql = 'update status_table set message = ? where id = 1'
     db.query(sql, [message], (err, result)=>{
         if(err) throw err

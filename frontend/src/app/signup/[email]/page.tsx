@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
-import { Label } from "../../components/ui/label";
-import { Input } from "../../components/ui/input";
+import { Label } from "../../../components/ui/label";
+import { Input } from "../../../components/ui/input";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -27,16 +27,16 @@ interface Errors {
   [key: string]: string;
 }
 
-export default function Signup() {
+export default function Signup({params}:any) {
   let navigation = useRouter();
 
   const [generatedOTP, setGeneratedOTP] = useState<string>('');
   const [enteredOTP, setEnteredOTP] = useState<string>('');
-  const [otploading, setotpLoading] = useState<boolean>(false);
-
+  const [isVerified, setIsVerified] = useState<boolean>(false);
+// console.log(params.email)
   // State for form data and errors
   const [formData, setFormData] = useState<FormData>({
-    sponsorEmail: "",
+    sponsorEmail: params.email,
     firstName: "",
     lastName: "",
     dob: "",
@@ -100,7 +100,6 @@ export default function Signup() {
   const handleSendOTP = async () => {
     let email = formData.email;
     if (email) {
-      setotpLoading(true)
       const otp = generateOTP();
 
       try {
@@ -109,8 +108,6 @@ export default function Signup() {
       } catch (err) {
         console.error('Error sending OTP:', err);
         alert('Failed to send OTP');
-      }finally{
-        setotpLoading(false)
       }
     } else {
       alert("Please Enter Email");
@@ -153,7 +150,7 @@ export default function Signup() {
       } else {
         alert("Invalid OTP");
       }
-    } catch (error) {
+    }catch (error) {
       console.error("Error submitting form:", error);
     } finally {
       setLoading(false);
@@ -182,7 +179,7 @@ export default function Signup() {
             />
             {errors.sponsorEmail && <p className="text-red-500 text-sm">{errors.sponsorEmail}</p>}
           </LabelInputContainer>
-      
+          
         </div>
         <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4">
           <LabelInputContainer>
@@ -270,7 +267,7 @@ export default function Signup() {
             onChange={(e)=>setEnteredOTP(e.target.value)}
             className=""
           />
-          <button onClick={handleSendOTP} disabled={otploading} className="bg-blue-900 text-white px-2 rounded ml-2 text md:text-lg font-[600]">{otploading ? 'Sending..' : 'Send OTP'}</button>
+          <button onClick={handleSendOTP} className="bg-blue-900 text-white px-2 rounded ml-2 text md:text-lg font-[600]">Send OTP</button>
           </div>
           {errors.enteredOTP && <p className="text-red-500 text-sm">{errors.enteredOTP}</p>}
         </LabelInputContainer>
