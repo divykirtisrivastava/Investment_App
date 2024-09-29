@@ -30,8 +30,9 @@ const Dashboard: React.FC = () => {
 
   // Split the sponsor email if it exists, otherwise handle safely
   const sponsor =  email ? email.split('@')[0] + '_partner_filixo.com' : '';
+  let forcopy = 'https://filixo.com/signup/' + sponsor;
   function handleCopy(){
-    navigator.clipboard.writeText(sponsor).then(() => {
+    navigator.clipboard.writeText(forcopy).then(() => {
         alert('Copied to clipboard!!');
       }).catch(err => {
         console.error('Failed to copy: ', err);
