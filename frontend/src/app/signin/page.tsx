@@ -118,7 +118,7 @@ const [otploading, setotpLoading] = useState<boolean>(false);
         />
       </LabelInputContainer>
       <div className="flex justify-between pb-5">
-      <h1>Don't have Account ? <Link href='/signup' className="text-blue-500">Register Now</Link></h1>
+      <h1>Do not have Account ? <Link href='/signup' className="text-blue-500">Register Now</Link></h1>
       <div onClick={()=>setChange(!change)} className="text-blue-500 cursor-pointer">Forgot Password ?</div>
       </div>
       <button
