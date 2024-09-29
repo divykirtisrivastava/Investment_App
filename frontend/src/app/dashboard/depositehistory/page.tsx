@@ -105,7 +105,7 @@ console.log(data)
                                 <td className="py-2 px-4">{data.depositeAmount}</td>
                                 <td className="py-2 px-4">{data.transactionDate}</td>
                                 <td className="py-2 px-4">{data.transactionId}</td>
-                                <td className="py-2 px-4"><img src={`http://localhost:4000/${data.transactionImage}`} alt="" className='w-40 h-16'/></td>
+                                <td className="py-2 px-4"><img src={`http://localhost:4000/uploads/${data.transactionImage}`} alt="" className='w-40 h-16'/></td>
                                 <td className="py-2 px-4">{data.transactionStatus}</td>
                             </tr>
                         ))}

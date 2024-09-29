@@ -229,7 +229,7 @@ const Admin_Edit_Profile: React.FC = () => {
           {/* Profile Image */}
           <div className="flex flex-col items-center">
             <img
-              src={auth.userData ?  `http://localhost:4000/${auth.userData.profilePic}` : "https://via.placeholder.com/150"}
+              src={auth.userData ?  `http://localhost:4000/uploads/${auth.userData.profilePic}` : "https://via.placeholder.com/150"}
               alt="Profile"
               className="rounded-full h-32 w-32 object-cover mb-4"
             />

@@ -144,7 +144,8 @@ export default function Signup({params}:any) {
             }
           });
           navigation.push('/signin');
-        }else{
+        }
+        else{
           alert("Email Already Registered..!")
         }
       } else {

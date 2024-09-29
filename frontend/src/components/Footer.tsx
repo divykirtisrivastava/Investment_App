@@ -13,27 +13,27 @@ export default function Footer() {
             <Image src={logo} className="w-72 lg:ml-0 " alt="logo"/>
         </Link>
         <div className="w-2/3 block sm:flex text-sm mt-6 lg:mt-0">
-            <ul className="text-gray-700 list-none p-0 font-thin flex flex-col text-left w-full">
-                <li className="inline-block py-2 px-3 text-white uppercase font-medium tracking-wide">Pages</li>
-                <li><Link href="/" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Home</Link></li>
-                <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Packages</Link></li>
-                <li><Link href="#about" className="inline-block py-2 px-3 text-white hover:text-white no-underline">About</Link></li>
-                <li><Link href="/contact" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Contact</Link></li>
+            <ul className="text-gray-700 list-none p-0 font-thin flex flex-col text-left w-full text-lg">
+                <li className="inline-block py-2 px-3 text-gray-400 uppercase font-medium tracking-wide text-xl">Pages</li>
+                <li><Link href="/" className="inline-block py-2 px-3 text-white hover:text-white no-underline font-[600]">Home</Link></li>
+                <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline font-[600]">Packages</Link></li>
+                <li><Link href="#about" className="inline-block py-2 px-3 text-white hover:text-white no-underline font-[600]">About</Link></li>
+                <li><Link href="/contact" className="inline-block py-2 px-3 text-white hover:text-white no-underline font-[600]">Contact</Link></li>
             </ul>
             <ul className="text-gray-700 list-none p-0 font-thin flex flex-col text-left w-full">
-                <li className="inline-block py-2 px-3 text-white uppercase font-medium tracking-wide">Company</li>
-                <li><Link href="/terms_and_conditions" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Privacy</Link>
+                <li className="inline-block py-2 px-3 text-gray-400 uppercase font-medium tracking-wide text-xl">Company</li>
+                <li><Link href="/terms_and_conditions" className="inline-block py-2 px-3 text-white hover:text-white no-underline text-lg font-[600]">Privacy</Link>
                 </li>
-                <li><Link href="/terms_and_conditions" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Terms and Conditions</Link></li>
+                <li><Link href="/terms_and_conditions" className="inline-block py-2 px-3 text-white hover:text-white no-underline text-lg font-[600] w-[250px]">Terms and Conditions</Link></li>
             </ul>
-            <ul className="text-gray-700 list-none p-0 font-thin flex flex-col text-left w-full">
+            {/* <ul className="text-gray-700 list-none p-0 font-thin flex flex-col text-left w-full">
                 <li className="inline-block py-2 px-3 text-white uppercase font-medium tracking-wide">Important Links</li>
-                <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Level 1</Link></li>
-                <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Level 2</Link></li>
-                <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline">Level 3</Link></li>
-                <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline">More..</Link></li>
+                <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline text-lg font-[600]">Level 1</Link></li>
+                <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline text-lg font-[600]">Level 2</Link></li>
+                <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline text-lg font-[600]">Level 3</Link></li>
+                <li><Link href="#packages" className="inline-block py-2 px-3 text-white hover:text-white no-underline text-lg font-[600]">More..</Link></li>
             
-            </ul>
+            </ul> */}
             <div className="text-gray-700 flex flex-col w-full">
                 <div className="inline-block py-2 px-3 text-white uppercase font-medium tracking-wide">Follow Us</div>
                 <div className="flex pl-4 justify-start mt-2">
@@ -53,7 +53,7 @@ export default function Footer() {
             </div>
         </div>
     </div>
-    <div className="mt-4 pt-6 text-gray-600 border-t border-gray-800 text-center"> © 2024 Techxpert.in. All rights reserved.</div>
+    <div className="mt-4 pt-6 text-gray-600 border-t border-gray-800 text-center"> © 2024 FILIXO.COM. All rights reserved.</div>
 </footer>
     </>
   );
