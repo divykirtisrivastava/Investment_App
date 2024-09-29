@@ -9,6 +9,7 @@ import pic4 from '../../public/pic4.jpeg';
 import pic7 from '../../public/pic7.jpeg';
 import pic8 from '../../public/pic8.jpeg';
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export function Navbar() {
   return (
@@ -21,10 +22,13 @@ export function Navbar() {
 function MainNavbar({ className }: { className?: string }) {
   const [active, setActive] = useState<string | null>(null);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false); // State for mobile menu
-
+let router = useRouter()
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen); // Toggle mobile menu
   };
+  function handleclick(){
+    router.push('/')
+  }
 
   return (
     <div className={cn("fixed top-10 inset-x-0 w-full mx-auto z-50 backdrop-blur-md", className)}>
@@ -35,8 +39,9 @@ function MainNavbar({ className }: { className?: string }) {
             <Image
               src={logo}
               alt="Logo"
+              onClick={handleclick}
               // className="absolute w-[300px] h-[200px] md:w-[300px] md:h-[240px] xl:w-[400px] xl:h-[340px] top-[-70px] left-0 md:top-[-70px] xl:top-[-110px] md:left-[-50px] xl:left-0 z-50"
-              className="w-36 md:w-48 relative left-0"
+              className="w-36 md:w-48 relative left-0 cursor-pointer z-50"
             />
             {/* Mobile Menu Button */}
           <div className="block md:hidden">
