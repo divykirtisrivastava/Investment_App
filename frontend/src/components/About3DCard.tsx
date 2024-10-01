@@ -4,7 +4,7 @@ import Image from "next/image";
 import React from "react";
 import { CardBody, CardContainer, CardItem } from "./ui/3d-card";
 import Link from "next/link";
-import pic from '../../public/pic1.jpg'
+import pic from '../../public/about.jpg'
 
 export function About3DCard() {
   return (

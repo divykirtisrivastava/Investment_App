@@ -10,6 +10,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Filixo",
   description: "Trade with Filixo",
+  icons:{
+    icon:'/logo.png'
+  }
 };
 
 export default function RootLayout({
