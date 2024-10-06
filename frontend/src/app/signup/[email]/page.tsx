@@ -136,8 +136,8 @@ export default function Signup({params}:any) {
     try {
       setLoading(true);
       if (enteredOTP === generatedOTP) {
-        let result = await axios.get(`https://filixo.com/trade/verifyEmail/${formData.email}`)
-        if(result.data){
+        // let result = await axios.get(`https://filixo.com/trade/verifyEmail/${formData.email}`)
+        // if(result.data){
           const response = await axios.post("https://filixo.com/trade/saveUser", formDataToSend, {
             headers: {
               "Content-Type": "multipart/form-data"
@@ -148,9 +148,10 @@ export default function Signup({params}:any) {
         else{
           alert("Email Already Registered..!")
         }
-      } else {
-        alert("Invalid OTP");
-      }
+      // } 
+      // else {
+      //   alert("Invalid OTP");
+      // }
     }catch (error) {
       console.error("Error submitting form:", error);
     } finally {
