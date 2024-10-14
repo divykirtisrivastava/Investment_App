@@ -3,6 +3,6 @@ let connection=mysql.createConnection({
     host: "localhost",
     user:"root",
     database: "trade",
-    password:'Divy@1234'
+    password:'Divy@9696'
 })
 module.exports=connection
