@@ -202,13 +202,13 @@ db.query(adminTableQuery, (err, result)=>{
 
 app.use('/api',contactRoute)
 app.use('/api',enquiryRoute)
-app.use('/trade',profileRoute)
-app.use('/trade',depositeRoute)
-app.use('/trade',withrawalRoute)
+app.use('/api',profileRoute)
+app.use('/api',depositeRoute)
+app.use('/api',withrawalRoute)
 app.use('/api',signRoute)
-app.use('/trade',adminRoute)
+app.use('/api',adminRoute)
 app.use('/api',statusRoute)
-app.listen(4000,()=>{
+app.listen(5000,()=>{
     console.log(`server is running on 4000`)
 })
 
