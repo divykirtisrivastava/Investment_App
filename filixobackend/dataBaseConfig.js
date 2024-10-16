@@ -5,4 +5,5 @@ let connection=mysql.createConnection({
     database: "trade",
     password:'Divy@9696'
 })
+//new
 module.exports=connection
